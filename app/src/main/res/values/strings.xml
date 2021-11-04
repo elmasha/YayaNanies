@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">YayaNanies</string>
+    <string name="facebook_app_id">1306470703101038</string>
+    <string name="fb_login_protocol_scheme">fb1306470703101038</string>
+    <string-array name="ageSet">
+        <item>Select age</item>
+        <item>18-25</item>
+        <item>25-30</item>
+        <item>30-35</item>
+        <item>35-40</item>
+        <item>40</item>
+    </string-array>
+
+</resources>

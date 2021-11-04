@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".Activities.RegisterActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/BackToMain2"
+            android:layout_width="wrap_content"
+            android:drawableLeft="@drawable/ic_west"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/main2"
+                android:textStyle="bold"
+                android:textSize="22dp"
+                android:text="Create a new account"/>
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightGrey"
+                android:textSize="17dp"
+                android:text="Register as user to be able to access 'Helper' "/>
+
+
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:drawableLeft="@drawable/ic_person_24"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:text="  Personal details"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/first_name"
+                            android:layout_width="150dp"
+                            android:hint="First name*"
+                            android:inputType="textPersonName"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/middle_name"
+                            android:layout_width="150dp"
+                            android:inputType="textPersonName"
+                            android:hint="Middle name*"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/last_name"
+                            android:layout_width="150dp"
+                            android:inputType="textPersonName"
+                            android:hint="Last name*"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/id_no"
+                            android:layout_width="150dp"
+                            android:hint="ID number*"
+                            android:inputType="number"
+                            android:layout_height="wrap_content"/>
+
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:drawableLeft="@drawable/ic_location"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:text="Address &amp; Location"/>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+
+                        <EditText
+                            android:id="@+id/county"
+                            android:layout_width="150dp"
+                            android:hint="County"
+                            android:inputType="textPersonName"
+                            android:layout_height="wrap_content"/>
+
+                        <EditText
+                            android:id="@+id/city"
+                            android:layout_width="150dp"
+                            android:hint="City/Town*"
+                            android:inputType="text"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/estate_name"
+                            android:layout_width="150dp"
+                            android:inputType="textPersonName"
+                            android:hint="Estate name"
+                            android:layout_height="wrap_content"/>
+
+
+
+                        <EditText
+                            android:id="@+id/street_name"
+                            android:layout_width="150dp"
+                            android:inputType="text"
+                            android:hint="Street name*"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:drawableLeft="@drawable/ic_phone"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:text=" Contact details"/>
+
+
+                    <EditText
+                        android:id="@+id/email_address"
+                        android:layout_width="250dp"
+                        android:hint="Email address"
+                        android:inputType="textEmailAddress"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:id="@+id/phone_no"
+                        android:layout_width="190dp"
+                        android:inputType="text"
+                        android:hint="Phone number*"
+                        android:layout_height="wrap_content"/>
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="190dp"
+                        android:inputType="textPassword"
+                        android:hint="Password*"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+
+                    <Button
+                        android:id="@+id/Btn_register"
+                        android:layout_width="200dp"
+                        android:text="Register"
+                        android:textColor="@color/black"
+                        android:layout_margin="5dp"
+                        android:textSize="19dp"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/btn_round_gradient"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal">
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center"
+                    android:background="@color/main"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Or register with"
+                    android:textSize="15dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/lightGrey"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"/>
+
+
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center"
+                    android:background="@color/main"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="200dp"
+                    android:textAlignment="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="40dp"
+                    />
+
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Already have an account?"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="14dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/ToLogin"
+                    android:layout_width="wrap_content"
+                    android:text="Sign in"
+                    android:textColor="@color/main2"
+                    android:textSize="15dp"
+                    android:layout_marginStart="4dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
