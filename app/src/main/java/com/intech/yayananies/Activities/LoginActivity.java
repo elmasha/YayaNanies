@@ -47,10 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout InputEmail,InputPassword;
     private Button LoginBtn;
     private static final int RC_SIGN_IN = 1001;
-    GoogleSignInClient googleSignInClient;
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CollectionReference YayaRef = db.collection("Yaya_Employer");
+    private GoogleSignInClient googleSignInClient;
 
 
     @Override
@@ -232,7 +229,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void UpdateDeviceToken(String uid) {
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference YayaRef = db.collection("Yaya_Employer");
         String token_Id = FirebaseInstanceId.getInstance().getToken();
 
         HashMap<String,Object> updates = new HashMap<>();

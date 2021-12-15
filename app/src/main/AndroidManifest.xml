@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
 
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -53,7 +54,11 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
+
         </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>
