@@ -162,7 +162,7 @@
 
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -172,17 +172,25 @@
                     <LinearLayout
                         android:id="@+id/google"
                         android:orientation="horizontal"
-                        android:background="@drawable/bg_white"
-                        android:layout_width="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/bg_white_sigin"
+                        android:layout_width="200dp"
                         android:elevation="2dp"
+                        android:layout_margin="5dp"
                         android:layout_height="wrap_content">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="25dp"
+                            android:layout_width="20dp"
                             android:src="@drawable/google"
-                            android:layout_height="25dp"/>
+                            android:layout_height="20dp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textStyle="bold"
+                            android:text="Sign in with google"
+                            android:textColor="@color/black" />
 
 
                     </LinearLayout>
@@ -190,6 +198,7 @@
 
                     <LinearLayout
                         android:id="@+id/facebook"
+                        android:visibility="gone"
                         android:orientation="horizontal"
                         android:background="@drawable/bg_white"
                         android:layout_width="wrap_content"
@@ -204,6 +213,12 @@
 
                     </LinearLayout>
 
+
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/login_button2"
+                        android:layout_margin="5dp"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

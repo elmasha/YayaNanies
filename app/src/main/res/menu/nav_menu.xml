@@ -7,12 +7,21 @@
         <item android:title="Account">
             <menu>
 
+                <item android:id="@+id/preference"
+                    android:icon="@drawable/ic_manage_search_24"
+                    android:title="My preference"/>
+
+
                 <item android:id="@+id/account"
                     android:icon="@drawable/ic_person_24"
                     android:title="My Profile"/>
+
+
                 <item android:id="@+id/notification"
                     android:icon="@drawable/ic_notifications"
                     android:title="Notification"/>
+
+
 
 
             </menu>

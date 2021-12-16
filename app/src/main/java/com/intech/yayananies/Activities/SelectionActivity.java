@@ -134,6 +134,10 @@ public class SelectionActivity extends AppCompatActivity {
         FetchProduct();
     }
 
+
+
+
+
     private  String id2;
     private void FetchProduct() {
 
