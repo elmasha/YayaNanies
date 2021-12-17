@@ -81,6 +81,8 @@ public class PreferenceActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
+    int countystate = 0;
+    private int profileState= 0;
 
 
     @Override
@@ -96,8 +98,7 @@ public class PreferenceActivity extends AppCompatActivity {
         ConfirmPreference.setTextColor(Color.parseColor("#808080"));
     }
 
-    int countystate = 0;
-    private int profileState= 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,9 @@ public class PreferenceActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.E_image);
         OpenDrawer = findViewById(R.id.drawerOpen);
         dl = (DrawerLayout) findViewById(R.id.PrefDrawer);
-
+        ConfirmPreference.setEnabled(false);
+        ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+        ConfirmPreference.setTextColor(Color.parseColor("#808080"));
 
         nv = (NavigationView) findViewById(R.id.navigation_menu2);
 
@@ -299,9 +302,7 @@ public class PreferenceActivity extends AppCompatActivity {
         });
 
 
-            ConfirmPreference.setEnabled(false);
-            ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
-            ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+
 
         FetchProduct();
         LoaCount();

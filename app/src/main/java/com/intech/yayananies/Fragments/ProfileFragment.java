@@ -1,5 +1,6 @@
 package com.intech.yayananies.Fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.format.DateFormat;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chootdev.csnackbar.Align;
+import com.chootdev.csnackbar.Duration;
+import com.chootdev.csnackbar.Snackbar;
+import com.chootdev.csnackbar.Type;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +43,7 @@ import com.intech.yayananies.Activities.MainActivity;
 import com.intech.yayananies.Activities.ProfileActivity;
 import com.intech.yayananies.Adpater.MyCandidateAdapter;
 import com.intech.yayananies.Models.Candidates;
+import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.R;
 import com.squareup.picasso.Picasso;
 
@@ -46,7 +57,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 View root;
     private CircleImageView profImage;
-    private TextView EmployerName,EmployerID,EmployerEmail,logout;
+    private TextView EmployerName,EmployerID,EmployerEmail,EmployerCounty,logout,closeEdit;
 
     private RecyclerView mRecyclerView;
     private MyCandidateAdapter adapter;
@@ -55,6 +66,12 @@ View root;
     CollectionReference YayaRef = db.collection("Yaya_Employer");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
     private FirebaseAuth mAuth;
+    private EditText EditUserName,EditEmail,EditPhone,EditLocation,EditStreet;
+    private Button BtnSaveChanges;
+    private FloatingActionButton editBtn;
+    private int editState = 0;
+    private LinearLayout editLayout,primeLayout;
+    private String userName,email,phone,location,userImage,street;
 
 
     public ProfileFragment() {
@@ -78,8 +95,55 @@ View root;
         EmployerID = root.findViewById(R.id.E_id);
         profImage = root.findViewById(R.id.E_Profileimage);
         EmployerName = root.findViewById(R.id.E_name);
+        EmployerCounty = root.findViewById(R.id.E_county);
         logout = root.findViewById(R.id.LogOut);
         mRecyclerView = root.findViewById(R.id.recycler_candidates);
+        EditEmail = root.findViewById(R.id.edit_Tf_email);
+        EditUserName = root.findViewById(R.id.edit_Tf_name);
+        EditPhone = root.findViewById(R.id.edit_Tf_phone);
+        EditLocation = root.findViewById(R.id.edit_Tf_location);
+        EditStreet = root.findViewById(R.id.edit_Tf_street);
+        editBtn = root.findViewById(R.id.edit_Tf_profile);
+        editLayout = root.findViewById(R.id.EditView);
+        BtnSaveChanges = root.findViewById(R.id.edit_Tf_saveChanges);
+        closeEdit = root.findViewById(R.id.closeEdit);
+
+        closeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editState == 1){
+                    editLayout.setVisibility(View.VISIBLE);
+                    editState =0;
+                }else if (editState == 0){
+                    editLayout.setVisibility(View.GONE);
+                    editState =1;
+                }
+            }
+        });
+        BtnSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validation()){
+
+                }else {
+                    SaveChanges();
+                }
+            }
+        });
+
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editState == 0){
+                    editLayout.setVisibility(View.VISIBLE);
+                    editState =1;
+                }else if (editState == 1){
+                    editLayout.setVisibility(View.GONE);
+                    editState =0;
+                }
+            }
+        });
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +158,99 @@ View root;
         FetchProduct();
         return root;
     }
+
+
+
+    private void SaveChanges() {
+
+        HashMap<String,Object> store = new HashMap<>();
+        store.put("Name", userName);
+        store.put("Street_name",street);
+        store.put("County",county);
+        store.put("Email",email);
+        store.put("Phone_NO",phone);
+
+
+
+        YayaRef.document(mAuth.getCurrentUser().getUid()).update(store).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
+
+                if (task.isSuccessful()){
+
+                    showSnackBarOnline(getContext(),"Saved changes..");
+                    if (editState == 0){
+                        editLayout.setVisibility(View.VISIBLE);
+                        editState =1;
+                    }else if (editState == 1){
+                        editLayout.setVisibility(View.GONE);
+                        editState =0;
+                    }
+
+                }else {
+
+                    showSnackBackOffline(getContext(),task.getException().getMessage());
+
+
+                }
+            }
+        });
+    }
+
+
+    private boolean validation(){
+        userName = EditUserName.getText().toString();
+        email = EditEmail.getText().toString();
+        phone = EditPhone.getText().toString();
+        location = EditLocation.getText().toString();
+        street = EditStreet.getText().toString();
+
+
+        if (userName.isEmpty()){
+            EditUserName.setError("Provide your full name");
+            return false;
+        }else if (email.isEmpty()){
+            EditEmail.setError("Provide your email.");
+            return false;
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            EditEmail.setError("Please enter a Valid email");
+            return false;
+        }
+        else if (phone.isEmpty()){
+            EditPhone.setError("Provide your phone number.");
+            return false;
+        }else if (location.isEmpty()){
+            EditLocation.setError("Provide your location.");
+            return false;
+        }else if (street.isEmpty()){
+            EditStreet.setError("Provide your street name.");
+            return false;
+        }
+        else{
+
+            return true;
+        }
+
+    }
+
+
+    //----InterNet Connection----
+    public void showSnackBackOffline(Context context, String msg) {
+        Snackbar.with(getContext(),null).type(Type.ERROR).message(msg)
+                .duration(Duration.LONG)
+                .fillParent(true)
+                .textAlign(Align.CENTER).show();
+    }
+
+    public void showSnackBarOnline(Context context,String msg) {
+
+        Snackbar.with(getContext(), null).type(Type.SUCCESS).message(msg)
+                .duration(Duration.LONG)
+                .fillParent(true)
+                .textAlign(Align.CENTER).show();
+
+    }
+
 
 
     private  String id2;
@@ -129,8 +286,6 @@ View root;
         });
 
     }
-
-
 
     private AlertDialog dialog2;
     public void Logout_Alert() {
@@ -193,7 +348,7 @@ View root;
     }
 
 
-    private String userNameE,countyE,cityE,contactE,imageE,emailE,idE;
+    private String userNameE,countyE,cityE,contactE,imageE,emailE,idE,county;
     private void LoadUserDetails(){
         YayaRef.document(mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -211,11 +366,21 @@ View root;
                     imageE = documentSnapshot.getString("UserImage");
                     emailE = documentSnapshot.getString("Email");
                     idE = documentSnapshot.getString("ID_no");
+                    EmployerData employerData = documentSnapshot.toObject(EmployerData.class);
+                    county = employerData.getCounty();
+                    street = employerData.getStreet_name();
 
 
                     EmployerEmail.setText(emailE);
                     EmployerName.setText(userNameE);
                     EmployerID.setText(idE);
+                    EmployerCounty.setText(county);
+
+                    EditUserName.setText(userNameE);
+                    EditEmail.setText(emailE);
+                    EditLocation.setText(countyE);
+                    EditPhone.setText(contactE);
+                    EditStreet.setText(street);
 
                     if (imageE != null){
                         Picasso.with(getContext()).load(imageE).placeholder(R.drawable.load)

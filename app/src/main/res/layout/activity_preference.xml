@@ -241,15 +241,16 @@
                         android:id="@+id/confirm_preference"
                         android:layout_width="wrap_content"
                         android:text="Search preference"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:layout_margin="5dp"
+                        android:padding="6dp"
                         android:drawableTint="@color/black"
                         android:drawableLeft="@drawable/ic_search"
                         android:textAllCaps="false"
                         android:textStyle="bold"
                         android:textSize="15dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/btn_round_black"
+                        android:background="@drawable/btn_round_grey"
                         android:layout_height="wrap_content"/>
 
 
