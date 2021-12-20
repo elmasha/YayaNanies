@@ -8,6 +8,7 @@ public class EmployerData {
     private String Name, ID_no, Street_name, City, County, Email, Phone_NO, device_token,UserImage, User_ID;
     private long  SelectionCount,CandidatesCount;
     private Date timestamp;
+    private Date date_select;
 
     public EmployerData() {
         //---empty----
@@ -15,7 +16,7 @@ public class EmployerData {
 
 
     public EmployerData(String name, String ID_no, String street_name, String city, String county, String email, String phone_NO,
-                        String device_token, String userImage, String user_ID, long selectionCount, long candidatesCount, Date timestamp) {
+                        String device_token, String userImage, String user_ID, long selectionCount, long candidatesCount, Date timestamp, Date date_select) {
         Name = name;
         this.ID_no = ID_no;
         Street_name = street_name;
@@ -29,8 +30,13 @@ public class EmployerData {
         SelectionCount = selectionCount;
         CandidatesCount = candidatesCount;
         this.timestamp = timestamp;
+        this.date_select = date_select;
     }
 
+
+    public Date getDate_select() {
+        return date_select;
+    }
 
     public String getName() {
         return Name;

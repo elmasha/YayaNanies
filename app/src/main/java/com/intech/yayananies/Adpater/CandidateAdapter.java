@@ -40,16 +40,16 @@ public class CandidateAdapter extends FirestoreRecyclerAdapter<Candidates, Candi
         holder.ward.setText(model.getWard());
         holder.mobile.setText(model.getMobile_no());
         holder.salary.setText(model.getSalary());
-        holder.age.setText(model.getAge()+" yrs");
+        holder.age.setText(model.getAge()+"yrs");
 
-        if (model.getWorking_status().equals("employed")){
-            holder.meet.setVisibility(View.GONE);
-        }else if (model.getWorking_status().equals("selected")){
-
-        }else {
-
-
-        }
+//        if (model.getWorking_status().equals("employed")){
+//            holder.meet.setVisibility(View.GONE);
+//        }else if (model.getWorking_status().equals("selected")){
+//
+//        }else {
+//
+//
+//        }
 
         if(context != null | model.getProfile_image() != null) {
             Picasso.with(context).load(model.getProfile_image()).placeholder(R.drawable.load).error(R.drawable.errorimage).into(holder.profile);

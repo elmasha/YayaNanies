@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -71,7 +72,7 @@ public class PreferenceActivity extends AppCompatActivity {
     CollectionReference YayaRef = db.collection("Yaya_Employer");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
     CollectionReference AdminRef = db.collection("Admin");
-    private TextView chooseCounty,OnCounty,OnAge,prefCount,OpenDrawer;
+    private TextView chooseCounty,OnCounty,OnAge,prefCount,OpenDrawer,ClearPreference;
     private Spinner age;
     private String countyText,ageText;
     private FrameLayout frameLayout;
@@ -88,15 +89,16 @@ public class PreferenceActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        ConfirmPreference.setEnabled(false);
+        ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+        ConfirmPreference.setTextColor(Color.parseColor("#808080"));
         FetchProduct();
         countyText = "";
         ageText = "";
         OnCounty.setText("");
         OnAge.setText("");
-        ConfirmPreference.setEnabled(false);
-        ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
-        ConfirmPreference.setTextColor(Color.parseColor("#808080"));
     }
+
 
 
 
@@ -114,10 +116,9 @@ public class PreferenceActivity extends AppCompatActivity {
         prefCount = findViewById(R.id.prefCount);
         profileImage = findViewById(R.id.E_image);
         OpenDrawer = findViewById(R.id.drawerOpen);
+        ClearPreference = findViewById(R.id.clearPref);
         dl = (DrawerLayout) findViewById(R.id.PrefDrawer);
-        ConfirmPreference.setEnabled(false);
-        ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
-        ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+
 
         nv = (NavigationView) findViewById(R.id.navigation_menu2);
 
@@ -216,6 +217,19 @@ public class PreferenceActivity extends AppCompatActivity {
         ConfirmPreference = findViewById(R.id.confirm_preference);
 
 
+        ClearPreference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                countyText = "";
+                ageText = "";
+                OnCounty.setText("");
+                OnAge.setText("");
+                ConfirmPreference.setEnabled(false);
+                ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+                ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+            }
+        });
+
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -309,6 +323,10 @@ public class PreferenceActivity extends AppCompatActivity {
         LoadUserDetails();
         LoadSelectedCandidate();
         printHashKey();
+        ConfirmPreference.setEnabled(false);
+        ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+        ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+
     }
 
 
@@ -448,7 +466,7 @@ public class PreferenceActivity extends AppCompatActivity {
         mRecyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(PreferenceActivity.this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(horizontalLayoutManager);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.HORIZONTAL));
         mRecyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new CountyAdapter.OnItemCickListener() {

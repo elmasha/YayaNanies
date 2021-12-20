@@ -25,12 +25,17 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.intech.yayananies.Adpater.CandidateAdapter;
 import com.intech.yayananies.Models.Candidates;
+import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.R;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +47,8 @@ public class SelectionActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference BureauRef = db.collection("Yaya_Bureau");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
+    CollectionReference YayaRef = db.collection("Yaya_Employer");
+    private FirebaseAuth mAuth;
     private TextView textUser,textEmail,textBureauName,toPref,
             selectName,selectSalary,selectCounty,selectWard,selectAge;
     private TextView CloseFrame;
@@ -56,10 +63,17 @@ public class SelectionActivity extends AppCompatActivity {
     private CircleImageView selectedImage;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        LoadUserDetails();
+        FetchProduct();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
-
+        mAuth = FirebaseAuth.getInstance();
         mRecyclerView = findViewById(R.id.recycler_selection);
         frameLayoutPass = findViewById(R.id.Selection_pass);
         County = getIntent().getStringExtra("County");
@@ -132,9 +146,39 @@ public class SelectionActivity extends AppCompatActivity {
         });
 
         FetchProduct();
+        LoadUserDetails();
     }
 
 
+    private String userNameE,countyE,cityE,contactE,imageE,emailE,idE,county,street;
+    private void LoadUserDetails(){
+        YayaRef.document(mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot,
+                                @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+                if (documentSnapshot.exists()){
+
+                    userNameE = documentSnapshot.getString("Name");
+                    contactE = documentSnapshot.getString("Phone_NO");
+                    cityE = documentSnapshot.getString("Street_name");
+                    countyE = documentSnapshot.getString("County");
+                    imageE = documentSnapshot.getString("UserImage");
+                    emailE = documentSnapshot.getString("Email");
+                    idE = documentSnapshot.getString("ID_no");
+                    EmployerData employerData = documentSnapshot.toObject(EmployerData.class);
+                    county = employerData.getCounty();
+                    street = employerData.getStreet_name();
+
+
+
+                }
+            }
+        });
+
+    }
 
 
 
@@ -186,6 +230,7 @@ public class SelectionActivity extends AppCompatActivity {
 
         HashMap<String, Object> update = new HashMap<>();
         update.put("Working_status", "selected");
+        update.put("date_selected", FieldValue.serverTimestamp());
         CandidateRef.document(ID).update(update).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

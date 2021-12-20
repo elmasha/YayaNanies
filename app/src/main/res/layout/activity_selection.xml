@@ -14,24 +14,31 @@
 
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/BackToPref"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_west"
+                android:layout_margin="5dp"/>
 
-        <TextView
-            android:id="@+id/BackToPref"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_west"
-            android:layout_margin="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Your preference"
+                android:textSize="19dp"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:layout_margin="22dp"
+                android:textColor="@color/main"
+                android:layout_height="wrap_content"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="List from your preference"
-            android:textSize="19dp"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"
-            android:textColor="@color/main"
-            android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+
+
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -64,11 +71,7 @@
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="12dp"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
@@ -106,121 +109,126 @@
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/profile" />
 
-                    <LinearLayout
+                    <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/Select_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="2"
-                            android:text="Elmasha Omondi"
-                            android:textColor="@color/lightGrey"
-                            android:textSize="15dp" />
-
-
-
+                        android:layout_height="wrap_content">
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Salary: "
-                                android:textColor="@color/white"
-                                android:textSize="16dp" />
-
-
-                            <TextView
-                                android:id="@+id/Select_salary"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="7000"
-                                android:textColor="@color/main"
-                                android:textSize="16dp" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Age: "
-                                android:textColor="@color/white"
-                                android:textSize="16dp" />
-
-
-                            <TextView
-                                android:id="@+id/Select_age"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="@color/main"
-                                android:textSize="16dp" />
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal"
-                            >
-
-                            <TextView
-                                android:id="@+id/Select_county"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_location"
-                                android:drawableTint="@color/primary"
-                                android:text="Nairobi"
-                                android:textColor="@color/white"
-                                android:textAlignment="center" />
-
-                            <TextView
-                                android:id="@+id/Select_ward"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:text="kabiria"
-                                android:textColor="@color/white"
-                                android:textAlignment="center" />
-
-
-                        </LinearLayout>
-
-
-                        <TextView
-                            android:id="@+id/row_mobile"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="073828829"
-                            android:textColor="@color/black"
-                            android:visibility="gone" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/Select_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Elmasha Omondi"
+                                android:textColor="@color/lightGrey"
+                                android:textSize="15dp" />
 
 
 
-                    </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Salary: "
+                                    android:textColor="@color/white"
+                                    android:textSize="16dp" />
+
+
+                                <TextView
+                                    android:id="@+id/Select_salary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="7000"
+                                    android:textColor="@color/main"
+                                    android:textSize="16dp" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Age: "
+                                    android:textColor="@color/white"
+                                    android:textSize="16dp" />
+
+
+                                <TextView
+                                    android:id="@+id/Select_age"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text=""
+                                    android:textColor="@color/main"
+                                    android:textSize="16dp" />
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal"
+                                >
+
+                                <TextView
+                                    android:id="@+id/Select_county"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_location"
+                                    android:drawableTint="@color/primary"
+                                    android:text="Nairobi"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center" />
+
+                                <TextView
+                                    android:id="@+id/Select_ward"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:text="kabiria"
+                                    android:textColor="@color/white"
+                                    android:textAlignment="center" />
+
+
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/row_mobile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="073828829"
+                                android:textColor="@color/black"
+                                android:visibility="gone" />
+
+
+
+                        </LinearLayout>
+                    </androidx.core.widget.NestedScrollView>
+
 
                 </LinearLayout>
 
@@ -260,7 +268,7 @@
 
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 
 </RelativeLayout>
