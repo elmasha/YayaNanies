@@ -276,9 +276,9 @@ View root;
                 Candidates  candidates = documentSnapshot.toObject(Candidates.class);
                 id2 = documentSnapshot.getId();
                 if (id2 != null){
-                    Intent toUpdate = new Intent(getContext(), InfoActivity.class);
-                    toUpdate.putExtra("ID",id2);
-                    startActivity(toUpdate);
+//                    Intent toUpdate = new Intent(getContext(), InfoActivity.class);
+//                    toUpdate.putExtra("ID",id2);
+//                    startActivity(toUpdate);
                 }else {
                     ToastBack("Please select a candidate.");
                 }

@@ -1,11 +1,13 @@
 package com.intech.yayananies.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.telephony.SmsManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +46,8 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -150,6 +155,35 @@ public class InfoActivity extends AppCompatActivity {
         LoadCandidateDetails();
         LoadUserDetails();
     }
+
+
+
+
+    private AlertDialog dialog2;
+    public void Deal_Alert() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialog2 = builder.create();
+        dialog2.show();
+        builder.setIcon(R.drawable.attention);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OKAY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog2 != null)dialog2.dismiss();
+                    }
+                });
+        builder.setTitle("Attention");
+        builder.setMessage("Please Confirm deal with candidate or Cancel the deal...\n" +
+                "\n"
+                +date);
+        builder.show();
+    }
+
+
+
 
     public static boolean hasPermissions(Context context, String... permissions) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
@@ -374,6 +408,20 @@ public class InfoActivity extends AppCompatActivity {
     }
 
 
+
+    private void newTimer (){
+        new CountDownTimer(5000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+            public void onFinish() {
+                InfoText.setVisibility(View.GONE);
+                if (dialog2 != null)dialog2.dismiss();
+            }
+        }.start();
+
+    }
+
+
     @Override
     public void onBackPressed() {
         if (workStatus.equals("selected")){
@@ -381,14 +429,9 @@ public class InfoActivity extends AppCompatActivity {
             InfoText.setVisibility(View.VISIBLE);
             InfoText.setText("Please Confirm deal with candidate or Cancel the deal.");
             InfoText.setTextColor(Color.parseColor("#F11E1E"));
+            Deal_Alert();
+            newTimer();
 
-            new CountDownTimer(5000, 1000) {
-                public void onTick(long millisUntilFinished) {
-                }
-                public void onFinish() {
-                    InfoText.setVisibility(View.GONE);
-                }
-            }.start();
 
 
         }else if (workStatus.equals("")){
