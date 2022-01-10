@@ -5,7 +5,8 @@ import com.google.firebase.firestore.FieldValue;
 import java.util.Date;
 
 public class EmployerData {
-    private String Name, ID_no, Street_name, City, County, Email, Phone_NO, device_token,UserImage, User_ID,mpesa_receipt,checkOutReqID;
+    private String Name, ID_no, Street_name, City, County, Email,
+            Phone_NO, device_token,UserImage, User_ID,mpesa_receipt,checkOutReqID;
     private long  SelectionCount,CandidatesCount;
     private Date timestamp;
     private Date payment_date;

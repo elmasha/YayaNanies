@@ -6,28 +6,37 @@
     android:background="@color/black"
     tools:context=".Fragments.NotificationFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Notification"
-        android:textSize="19dp"
-        android:textColor="@color/primary"
-        android:textStyle="bold"
-        android:layout_margin="10dp"
-        android:layout_height="wrap_content"/>
-
-
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeNotification"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_notification"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Notification"
+            android:textSize="19dp"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"/>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeNotification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_notification"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+
 
 
 

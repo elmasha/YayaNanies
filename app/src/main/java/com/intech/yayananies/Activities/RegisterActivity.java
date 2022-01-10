@@ -235,6 +235,11 @@ public class RegisterActivity extends AppCompatActivity {
         registerB.put("CandidatesCount",1);
         registerB.put("UserImage",userImage);
         registerB.put("timestamp", FieldValue.serverTimestamp());
+        registerB.put("preference_count",false);
+        registerB.put("mpesa_receipt",null);
+        registerB.put("checkOutReqID",null);
+        registerB.put("payment_date", "");
+
 
         YayaRef.document(uid).set(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

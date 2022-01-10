@@ -41,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 import com.intech.yayananies.Models.Candidates;
+import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.R;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -123,7 +124,12 @@ public class InfoActivity extends AppCompatActivity {
         ConfirmDeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UpdateStatus();
+                if (noOfCandidate == 1){
+                    ToastBack("You reached maximum Number of candidates");
+                }else {
+                    UpdateStatus();
+                }
+
             }
         });
 
@@ -176,7 +182,7 @@ public class InfoActivity extends AppCompatActivity {
                     }
                 });
         builder.setTitle("Attention");
-        builder.setMessage("Please Confirm deal with candidate or Cancel the deal...\n" +
+        builder.setMessage("By clicking 'CONFIRM DEAL' you confirm that you have reached an agreement if not please 'CANCEL DEAL'..\n" +
                 "\n"
                 +date);
         builder.show();
@@ -313,7 +319,7 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     //----Load details---//
-    private long noOfCandidates;
+    private long noOfCandidate;
     private String workStatus,employerNo;
     private void LoadCandidateDetails() {
 
@@ -339,6 +345,7 @@ public class InfoActivity extends AppCompatActivity {
                     residence = candidates.getResidence();
                     workStatus = candidates.getWorking_status();
                     employerNo = candidates.getEmployer_no();
+
 
                     Name.setText(firstName);
                     Age.setText(age+" yrs");
@@ -380,10 +387,13 @@ public class InfoActivity extends AppCompatActivity {
                 }
                 if (documentSnapshot.exists()){
 
+                    EmployerData employerData = documentSnapshot.toObject(EmployerData.class);
                     userNameE = documentSnapshot.getString("Name");
                     contactE = documentSnapshot.getString("Phone_NO");
                     cityE = documentSnapshot.getString("Street_name");
                     countyE = documentSnapshot.getString("County");
+                    noOfCandidate = employerData.getCandidatesCount();
+
 
                 }
             }
@@ -410,7 +420,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
     private void newTimer (){
-        new CountDownTimer(5000, 1000) {
+        new CountDownTimer(8000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
             public void onFinish() {
@@ -426,9 +436,9 @@ public class InfoActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (workStatus.equals("selected")){
 //            ToastBack("Please Confirm deal with candidate or Cancel the deal.");
-            InfoText.setVisibility(View.VISIBLE);
+//            InfoText.setVisibility(View.VISIBLE);
             InfoText.setText("Please Confirm deal with candidate or Cancel the deal.");
-            InfoText.setTextColor(Color.parseColor("#F11E1E"));
+            InfoText.setTextColor(Color.parseColor("#FFC107"));
             Deal_Alert();
             newTimer();
 

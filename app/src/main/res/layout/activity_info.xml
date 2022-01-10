@@ -3,21 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/black"
     tools:context=".Activities.InfoActivity">
 
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_marginBottom="40dp"
-        android:layout_height="wrap_content">
 
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
 
             <TextView
@@ -28,346 +19,401 @@
                 android:drawableLeft="@drawable/ic_west"
                 android:visibility="gone" />
 
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="Candidate Info"
-                    android:layout_gravity="center_horizontal"
-                    android:textStyle="bold"
-                    android:layout_margin="15dp"
-                    android:textColor="@color/primary"
-                    android:textSize="22dp"
-                    android:layout_height="wrap_content"/>
-
-
-                <TextView
-                    android:id="@+id/infoTextView"
-                    android:layout_width="300dp"
-                    android:visibility="gone"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="16dp"
-                    android:layout_height="wrap_content"/>
-
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="25dp"
-                android:padding="8dp"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:textColor="@color/primary"
-                        android:id="@+id/C_status"
-                        android:text="Available"
-                        android:paddingBottom="6dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:paddingLeft="20dp"
-                        android:background="@drawable/bg_black_close"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/C_image"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        app:civ_border_width="2dp"
-                        app:civ_border_color="@color/primary"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/profile"
-                        android:layout_gravity="center_horizontal"/>
-
-
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/C_name"
-                            android:text="Elmasha Omondi"
-                            android:textSize="21dp"
-                            android:textColor="@color/black"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-
-
-
-
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:layout_height="wrap_content">
-
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_height="wrap_content">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_height="wrap_content">
-
-
-
-                                <com.getbase.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/C_Call"
-                                    android:layout_width="wrap_content"
-                                    app:fab_colorNormal="@color/primary"
-                                    app:fab_colorPressed="@color/black"
-                                    app:fab_icon="@drawable/ic_phone"
-                                    android:layout_gravity="center_horizontal"
-                                    app:fab_size="mini"
-                                    android:layout_height="wrap_content"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Call"
-                                    android:layout_gravity="center"
-                                    android:textSize="19dp"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    />
-
-
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_height="wrap_content">
-
-
-
-                                <com.getbase.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/C_sms"
-                                    android:layout_width="wrap_content"
-                                    app:fab_colorNormal="@color/primary"
-                                    app:fab_colorPressed="@color/black"
-                                    app:fab_icon="@drawable/ic_sms"
-                                    android:layout_gravity="center_horizontal"
-                                    app:fab_size="mini"
-                                    android:layout_height="wrap_content"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Sms"
-                                    android:layout_gravity="center"
-                                    android:textSize="19dp"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    />
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-
-
-                        <View
-                            android:layout_width="400dp"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="10dp"
-                            android:background="@color/primary"
-                            android:layout_height="3dp"/>
-
-
-
-                        <TextView
-                            android:id="@+id/C_age"
-                            android:text="29 yrs"
-                            android:textSize="18dp"
-                            android:layout_margin="5dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
-
-
-
-                            <TextView
-                                android:id="@+id/C_county"
-                                android:textSize="18dp"
-                                android:text="Nairobi"
-                                android:textColor="@color/grey"
-                                android:drawableLeft="@drawable/ic_location"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-
-
-                            <TextView
-                                android:id="@+id/C_ward"
-                                android:textSize="18dp"
-                                android:text=""
-                                android:textColor="@color/grey"
-                                android:layout_marginStart="5dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-
-
-                        </LinearLayout>
-
-
-
-                        <TextView
-                            android:id="@+id/C_phone"
-                            android:textSize="18dp"
-                            android:text="072324546"
-                            android:textColor="@color/grey"
-                            android:layout_margin="5dp"
-                            android:drawableLeft="@drawable/ic_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-                        <TextView
-                            android:id="@+id/C_id"
-                            android:textSize="18dp"
-                            android:text=" 34453534"
-                            android:layout_margin="5dp"
-                            android:drawableLeft="@drawable/ic_id"
-                            android:drawableTint="@color/black"
-                            android:textColor="@color/grey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-
-
-                        <TextView
-                            android:id="@+id/C_salary"
-                            android:textSize="18dp"
-                            android:text="5000"
-                            android:textColor="@color/blue"
-                            android:drawableLeft="@drawable/ic_money"
-                            android:drawableTint="@color/black"
-                            android:layout_margin="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/C_residence"
-                            android:textSize="18dp"
-                            android:layout_margin="5dp"
-                            android:text=""
-                            android:drawableTint="@color/black"
-                            android:drawableLeft="@drawable/ic_home"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-
-
-
-                </LinearLayout>
-
-
-
-            </androidx.cardview.widget.CardView>
-
-
-
-
-
-
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Candidate Info"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textColor="@color/primary"
+            android:textSize="22dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/infoTextView"
+            android:layout_width="300dp"
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/Deal_layout"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
 
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="25dp"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/primary"
+                            android:id="@+id/C_status"
+                            android:text="Available"
+                            android:paddingBottom="6dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="20dp"
+                            android:paddingLeft="20dp"
+                            android:background="@drawable/bg_black_close"
+                            android:textStyle="bold"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/C_image"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            app:civ_border_width="2dp"
+                            app:civ_border_color="@color/primary"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/profile"
+                            android:layout_gravity="center_horizontal"/>
+
+
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/C_name"
+                                android:text="Elmasha Omondi"
+                                android:textSize="19dp"
+                                android:textColor="@color/black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+
+
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="4dp"
+                            android:layout_height="wrap_content">
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_height="wrap_content">
+
+
+
+                                    <com.getbase.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/C_Call"
+                                        android:layout_width="wrap_content"
+                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_colorPressed="@color/black"
+                                        app:fab_icon="@drawable/ic_phone"
+                                        android:layout_gravity="center_horizontal"
+                                        app:fab_size="mini"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Call"
+                                        android:layout_gravity="center"
+                                        android:textSize="19dp"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        />
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_height="wrap_content">
+
+
+
+                                    <com.getbase.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/C_sms"
+                                        android:layout_width="wrap_content"
+                                        app:fab_colorNormal="@color/primary"
+                                        app:fab_colorPressed="@color/black"
+                                        app:fab_icon="@drawable/ic_sms"
+                                        android:layout_gravity="center_horizontal"
+                                        app:fab_size="mini"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Sms"
+                                        android:layout_gravity="center"
+                                        android:textSize="19dp"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        />
+
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+
+                            <View
+                                android:layout_width="400dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="10dp"
+                                android:background="@color/primary"
+                                android:layout_height="3dp"/>
+
+
+
+                            <TextView
+                                android:id="@+id/C_age"
+                                android:text="29 yrs"
+                                android:textSize="18dp"
+                                android:layout_margin="3dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+                                    android:id="@+id/C_county"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:drawableLeft="@drawable/ic_location"
+                                    android:text="Nairobi"
+                                    android:textColor="@color/grey"
+                                    android:textSize="18dp" />
+
+
+                                <TextView
+                                    android:id="@+id/C_ward"
+                                    android:textSize="18dp"
+                                    android:text=""
+                                    android:textColor="@color/grey"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+
+                            </LinearLayout>
+
+
+
+                            <TextView
+                                android:id="@+id/C_phone"
+                                android:textSize="18dp"
+                                android:text="072324546"
+                                android:textColor="@color/grey"
+                                android:layout_margin="3dp"
+                                android:drawableLeft="@drawable/ic_phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+                            <TextView
+                                android:id="@+id/C_id"
+                                android:textSize="18dp"
+                                android:text=" 34453534"
+                                android:layout_margin="3dp"
+                                android:drawableLeft="@drawable/ic_id"
+                                android:drawableTint="@color/black"
+                                android:textColor="@color/grey"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+
+
+                            <TextView
+                                android:id="@+id/C_salary"
+                                android:textSize="18dp"
+                                android:text="5000"
+                                android:textColor="@color/blue"
+                                android:drawableLeft="@drawable/ic_money"
+                                android:drawableTint="@color/black"
+                                android:layout_margin="3dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/C_residence"
+                                android:textSize="18dp"
+                                android:layout_margin="3dp"
+                                android:text=""
+                                android:drawableTint="@color/black"
+                                android:drawableLeft="@drawable/ic_home"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:orientation="vertical"
+            android:padding="5dp"
             android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/confirm_deal"
-                android:layout_width="200dp"
-                android:text="Confirm deal"
-                android:textColor="@color/black"
-                android:textAllCaps="true"
-                android:layout_gravity="center_horizontal"
-                android:padding="10dp"
-                android:background="@color/primary"
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:text="Steps :"
+                android:layout_margin="5dp"
+                android:textColor="@color/primary"
+                android:textSize="20dp"
                 android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="1. Call or Sms to interview the candidate."
+                android:layout_marginStart="15dp"
+                android:textColor="@color/ColorAmber"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="2. Once agreed click on 'CONFIRM DEAL' otherwise if not 'CANCLE DEAL' ."
+                android:layout_marginStart="15dp"
+                android:textColor="@color/ColorAmber"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"/>
+
+
+
+
+
 
         </LinearLayout>
 
+
         <LinearLayout
+            android:id="@+id/Deal_layout"
             android:layout_width="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/cancel_deal"
-                android:layout_width="200dp"
-                android:text="Cancel Deal"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:textAllCaps="true"
-                android:background="@color/lightGrey"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"/>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/confirm_deal"
+                    android:layout_width="200dp"
+                    android:text="Confirm deal"
+                    android:textColor="@color/black"
+                    android:textAllCaps="true"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:background="@color/primary"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/cancel_deal"
+                    android:layout_width="200dp"
+                    android:text="Cancel Deal"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
+                    android:background="@color/lightGrey"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+
+
 
         </LinearLayout>
-
-
 
 
 
     </LinearLayout>
+
+
 
 </RelativeLayout>
