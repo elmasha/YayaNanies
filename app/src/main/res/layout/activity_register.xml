@@ -236,7 +236,7 @@
 
 
                     <EditText
-                        android:id="@+id/email_address"
+                        android:id="@+id/Login_email_address"
                         android:layout_width="250dp"
                         android:hint="Email address"
                         android:inputType="textEmailAddress"
@@ -250,7 +250,7 @@
                         android:layout_height="wrap_content"/>
 
                     <EditText
-                        android:id="@+id/password"
+                        android:id="@+id/Login_password"
                         android:layout_width="190dp"
                         android:inputType="textPassword"
                         android:hint="Password*"

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
     SignInButton signInButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,10 +97,10 @@ public class RegisterActivity extends AppCompatActivity {
         County = findViewById(R.id.county);
         StreetName = findViewById(R.id.street_name);
         City = findViewById(R.id.city);
-        Email = findViewById(R.id.email_address);
+        Email = findViewById(R.id.Login_email_address);
         Telephone = findViewById(R.id.phone_no);
         BtnRegister = findViewById(R.id.Btn_register);
-        Password = findViewById(R.id.password);
+        Password = findViewById(R.id.Login_password);
         toMain = findViewById(R.id.BackToMain2);
 
 
@@ -137,8 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }else {
                     if (mAuth.getCurrentUser().getUid() != null){
 
-                        RegisterUser(mAuth.getCurrentUser().getUid());
-                    }else {
+                    }else if(mAuth.getCurrentUser().getUid() == null) {
                         EmailPassRegistration();
                     }
 
@@ -176,9 +177,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    private ProgressDialog progressDialog;
     private void EmailPassRegistration() {
         email = Email.getText().toString();
         password = Password.getText().toString();
+
 
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -188,6 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
                         RegisterUser(mAuth.getCurrentUser().getUid());
                 }else {
                     ToastBack(task.getException().getMessage());
+                    progressDialog.dismiss();
                 }
             }
         });
@@ -220,6 +224,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void RegisterUser(String uid) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading");
+        progressDialog.setIcon(R.drawable.wait);
+        progressDialog.setMessage("Please wait..");
+        progressDialog.show();
         String token_Id = FirebaseInstanceId.getInstance().getToken();
         HashMap<String,Object> registerB = new HashMap<>();
         registerB.put("Name", firstName +" "+ middleName +" "+ lastName);
@@ -238,7 +247,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerB.put("preference_count",false);
         registerB.put("mpesa_receipt",null);
         registerB.put("checkOutReqID",null);
-        registerB.put("payment_date", "");
+        registerB.put("payment_date", null);
 
 
         YayaRef.document(uid).set(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -246,11 +255,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     ToastBack("Registration successful");
+                    progressDialog.dismiss();
                     Intent toreg = new Intent(getApplicationContext(), PreferenceActivity.class);
                     startActivity(toreg);
                     finish();
                 }else {
                     ToastBack(task.getException().getMessage());
+                    progressDialog.dismiss();
                 }
             }
         });

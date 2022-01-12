@@ -90,7 +90,7 @@ public class PreferenceActivity extends AppCompatActivity {
     CollectionReference YayaRef = db.collection("Yaya_Employer");
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
     CollectionReference AdminRef = db.collection("Admin");
-    private TextView chooseCounty,OnCounty,OnAge,prefCount,OpenDrawer,ClearPreference;
+    private TextView chooseCounty,OnCounty,OnAge,prefCount,OpenDrawer,ClearPreference,Selected;
     private Spinner age;
     private String countyText,ageText;
     private FrameLayout frameLayout;
@@ -126,6 +126,7 @@ public class PreferenceActivity extends AppCompatActivity {
         FetchProduct();
         countyText = "";
         ageText = "";
+        Selected.setText("");
         OnCounty.setText("");
         OnAge.setText("");
     }
@@ -150,6 +151,7 @@ public class PreferenceActivity extends AppCompatActivity {
         profileImage = findViewById(R.id.E_image);
         OpenDrawer = findViewById(R.id.drawerOpen);
         ClearPreference = findViewById(R.id.clearPref);
+        Selected = findViewById(R.id.Selected);
         dl = (DrawerLayout) findViewById(R.id.PrefDrawer);
 
         retrofit = new Retrofit.Builder()
@@ -272,19 +274,24 @@ public class PreferenceActivity extends AppCompatActivity {
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ageText = age.getSelectedItem().toString();
-
-                OnAge.setText(ageText);
-                if (ageText != null){
+                if (i !=  0){
+                    ageText = age.getSelectedItem().toString();
+                    OnAge.setText(ageText);
                     ConfirmPreference.setEnabled(true);
                     ConfirmPreference.setBackgroundResource(R.drawable.btn_round_gradient);
                     ConfirmPreference.setTextColor(Color.parseColor("#1C1B2B"));
+                }
+
+                if (ageText != null){
+
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                ConfirmPreference.setEnabled(false);
+                ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+                ConfirmPreference.setTextColor(Color.parseColor("#808080"));
             }
         });
 
@@ -765,6 +772,7 @@ public class PreferenceActivity extends AppCompatActivity {
                 countyText = counties.getCounty();
                 OnCounty.setText(countyText);
                 OnAge.setText(ageSet(ageText));
+                Selected.setText("You have selected age"+ageText+" and "+countyText +" from your preference.");
                 frameLayout.setVisibility(View.GONE);
                 countystate=0;
                 ConfirmPreference.setEnabled(true);
@@ -925,6 +933,7 @@ public class PreferenceActivity extends AppCompatActivity {
         } else {
             ToastBack("Double tap to exit");
             ConfirmPreference.setEnabled(false);
+            Selected.setText("");
             ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
             ConfirmPreference.setTextColor(Color.parseColor("#808080"));
             if(getSupportFragmentManager().findFragmentById(R.id.Frame_preference) != null) {

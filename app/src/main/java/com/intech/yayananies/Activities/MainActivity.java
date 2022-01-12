@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.intech.yayananies.R;
 
 import java.util.Calendar;
@@ -22,6 +23,27 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private Button forHelper,AsHelper;
+    FirebaseAuth mAuth;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() != null)
+        {
+
+            if (mAuth.getCurrentUser().getUid() != null){
+                startActivity(new Intent(getApplicationContext(),PreferenceActivity.class));
+            }else {
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+
+        }else {
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     forHelper = findViewById(R.id.Helper);
     AsHelper = findViewById(R.id.workHelper);
+        mAuth = FirebaseAuth.getInstance();
 
         forHelper.setOnClickListener(new View.OnClickListener() {
             @Override

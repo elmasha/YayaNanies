@@ -56,7 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.content.ContentValues.TAG;
 
 public class InfoActivity extends AppCompatActivity {
-    private TextView Name,Age,Status,County,Ward,Phone,ID_no,Salary,Back,Residence,InfoText;
+    private TextView Name,Age,Status,County,Ward,Phone,ID_no,Salary,Residence,InfoText;
     private Button ConfirmDeal,CancelDeal;
     private FloatingActionButton CallBtn,SmsBtn;
     private String ID;
@@ -92,7 +92,6 @@ public class InfoActivity extends AppCompatActivity {
         CancelDeal = findViewById(R.id.cancel_deal);
         CallBtn = findViewById(R.id.C_Call);
         candidateProfile = findViewById(R.id.C_image);
-        Back = findViewById(R.id.BackToSect);
         SmsBtn = findViewById(R.id.C_sms);
         linearLayoutDeal = findViewById(R.id.Deal_layout);
         Residence = findViewById(R.id.C_residence);
@@ -109,14 +108,6 @@ public class InfoActivity extends AppCompatActivity {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage("tel:" +mobile, null, "sms message", null, null);}
 
-            }
-        });
-
-
-        Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),SelectionActivity.class));
             }
         });
 
@@ -242,8 +233,8 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(getApplicationContext(),SelectionActivity.class));
                     ToastBack("Deal canceled");
+                    startActivity(new Intent(getApplicationContext(),PreferenceActivity.class));
                 } else {
                     ToastBack(task.getException().getMessage());
                 }

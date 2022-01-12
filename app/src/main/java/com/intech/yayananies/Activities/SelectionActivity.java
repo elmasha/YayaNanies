@@ -175,27 +175,41 @@ public class SelectionActivity extends AppCompatActivity {
         ConfirmPref.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date date = new Date();
-                ToastBack("You were activated "+payment_date);
-                String  time  = "30 minutes ago";
                 if (id2 != null){
 
+                    if (payDay != null){
 
-                  if (mpesa_receipt != null){
+                        if (getDifferenceDays(date,payDay) > 1 ){
+                            ToastBack(getDifferenceDays(date,payDay)+" Day2");
+                        }else {
+                            ToastBack(getDifferenceDays(date,payDay)+" Day");
+                        }
 
-                            Intent toUpdate = new Intent(getApplicationContext(), InfoActivity.class);
-                            toUpdate.putExtra("ID",id2);
-                            startActivity(toUpdate);
+
+                        if (getDifferenceDays(date,payDay) > 3){
+                            FormatReceipt();
+                        }else if (getDifferenceDays(date,payDay) <= 3){
+
+                            if(mpesa_receipt != null){
+                                Intent toUpdate = new Intent(getApplicationContext(), InfoActivity.class);
+                                toUpdate.putExtra("ID",id2);
+                                startActivity(toUpdate);
+                            }else {
+                                MpesaDialog();
+                            }
+
+
+                        }
+
                     }else {
-                      MpesaDialog();
-                  }
-
+                        MpesaDialog();
+                    }
 
                 }else {
                     ToastBack("Please select a candidate.");
                 }
+
 
             }
         });
@@ -204,12 +218,65 @@ public class SelectionActivity extends AppCompatActivity {
         LoadUserDetails();
     }
 
+    ProgressDialog progressDialog33;
+    private void FormatReceipt() {
+        progressDialog33 = new ProgressDialog(this);
+        progressDialog33.setMessage("Please wait..");
+        progressDialog33.setCancelable(false);
+        progressDialog33.show();
+        HashMap<String ,Object> format = new HashMap<>();
+        format.put("preference_count",false);
+        format.put("mpesa_receipt",null);
+        format.put("checkOutReqID",null);
+        format.put("payment_date", null);
+
+        YayaRef.document(mAuth.getCurrentUser().getUid()).update(format)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    MpesaDialog();
+                    NotifyUser();
+                    progressDialog33.dismiss();
+                }else {
+                    ToastBack(task.getException().getMessage());
+                    progressDialog33.dismiss();
+                }
+            }
+        });
+    }
+
+    private void NotifyUser() {
+        HashMap<String ,Object> notify = new HashMap<>();
+        notify.put("title","Selection fee");
+        notify.put("desc","You have reached maximum number of days");
+        notify.put("type","Selection activation");
+        notify.put("to",mAuth.getCurrentUser().getUid());
+        notify.put("from",mAuth.getCurrentUser().getUid());
+        notify.put("timestamp",FieldValue.serverTimestamp());
+
+        YayaRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                .document(mAuth.getCurrentUser().getUid()).set(notify)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+
+                        }else {
+                            ToastBack(task.getException().getMessage());
+                        }
+                    }
+                });
+
+
+    }
+
 
     private AlertDialog dialog_mpesa;
     private EditText mpesaNo;
     private String PesaNO;
     private Button BtnConfirm;
-    private TextView noMpesa,mpesaText;
+    private TextView noMpesa,mpesaText,mpesaText2;
     private ProgressBar progressBarMpesa;
     private int phoneState = 0;
     private void MpesaDialog(){
@@ -220,11 +287,13 @@ public class SelectionActivity extends AppCompatActivity {
         BtnConfirm = mView.findViewById(R.id.verify_MpesaNo);
         progressBarMpesa = mView.findViewById(R.id.progress_MpesaNo);
         mpesaText = mView.findViewById(R.id.TextMpesa);
+        mpesaText2 = mView.findViewById(R.id.TextMpesa2);
         noMpesa = mView.findViewById(R.id.no);
         DoubleBounce doubleBounce = new DoubleBounce();
         progressBarMpesa.setIndeterminateDrawable(doubleBounce);
 
         mpesaText.setText("Are you sure this "+contactE+" is your Mpesa number?");
+        mpesaText2.setText("For you to select this candidate you will require to pay amount =/100 for 3days activation.");
         mpesaNo.setText(contactE);
 
 
@@ -382,6 +451,9 @@ public class SelectionActivity extends AppCompatActivity {
                             new SweetAlertDialog(SelectionActivity.this,SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("Payment was successful..")
                                     .show();
+                            Intent toInfo = new Intent(getApplicationContext(),InfoActivity.class);
+                            toInfo.putExtra("ID",id2);
+                            startActivity(toInfo);
 
 
                         }else if (ResultCode.equals("1032")){
@@ -442,6 +514,15 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
 
+
+    public int getDifferenceDays(Date d1, Date d2) {
+        int daysdiff = 0;
+        long diff = d2.getTime() - d1.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000) + 1;
+        daysdiff = (int) diffDays;
+        return Math.abs(daysdiff);
+    }
+
     //----Stk Timer------
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
@@ -495,6 +576,7 @@ public class SelectionActivity extends AppCompatActivity {
 
 
     private String userNameE,countyE,cityE,contactE,imageE,emailE,idE,county,street;
+    private Date payDay;
     private void LoadUserDetails(){
         YayaRef.document(mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -516,7 +598,8 @@ public class SelectionActivity extends AppCompatActivity {
                     county = employerData.getCounty();
                     street = employerData.getStreet_name();
                     mpesa_receipt = employerData.getMpesa_receipt();
-                    payment_date = TimeAgo.getTimeAgo(employerData.getPayment_date().getTime());
+                   // payment_date = TimeAgo.getTimeAgo(employerData.getPayment_date().getTime());
+                    payDay = employerData.getPayment_date();
 
 
 
