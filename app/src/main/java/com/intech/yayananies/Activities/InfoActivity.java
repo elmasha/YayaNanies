@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +35,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
@@ -44,8 +42,6 @@ import com.intech.yayananies.Models.Candidates;
 import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.R;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -116,7 +112,7 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (noOfCandidate == 1){
-                    ToastBack("You reached maximum Number of candidates");
+                    Dialog_Alert("You reached maximum Number of candidates");
                 }else {
                     UpdateStatus();
                 }
@@ -154,6 +150,58 @@ public class InfoActivity extends AppCompatActivity {
     }
 
 
+    private AlertDialog dialogAlert;
+    public void Dialog_Alert(String msg) {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogAlert = builder.create();
+        dialogAlert.show();
+        builder.setTitle("Attention");
+        builder.setIcon(R.drawable.attention);
+        builder.setMessage(msg+".\n" +date);
+
+        builder.setPositiveButton("OKAY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogAlert.dismiss();
+                    }
+                });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+
+    private AlertDialog dialogConfirm;
+    public void Discharge_Alert(String candidate) {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogConfirm = builder.create();
+        dialogConfirm.show();
+        builder.setTitle("Discharge candidate");
+        builder.setIcon(R.drawable.discharge);
+        builder.setMessage("Would you like to discharge "+candidate+".\n" +date);
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialogConfirm.dismiss();
+            }
+        });
+        builder.setPositiveButton("PROCEED",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
 
 
     private AlertDialog dialog2;
@@ -212,17 +260,30 @@ public class InfoActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-
-                        ToastBack("Status updated to " + UpdateStatus);
-                        getAvailableCounts(UpdateStatus);
+                        candidateCount();
                     } else {
-
                         ToastBack(task.getException().getMessage());
                     }
                 }
             });
 
 
+    }
+
+    private void candidateCount() {
+        HashMap<String, Object> deal = new HashMap<>();
+        deal.put("CandidatesCount", 1);
+        YayaRef.document(mAuth.getCurrentUser().getUid()).update(deal).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    ToastBack("Status updated to " + UpdateStatus);
+                    getAvailableCounts(UpdateStatus);
+                }else {
+                    ToastBack(task.getException().getMessage());
+                }
+            }
+        });
     }
 
     private void UpdateWokeStatus(String ID){

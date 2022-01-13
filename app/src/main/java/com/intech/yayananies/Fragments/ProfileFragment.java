@@ -3,6 +3,7 @@ package com.intech.yayananies.Fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ import com.google.firebase.firestore.Query;
 import com.intech.yayananies.Activities.InfoActivity;
 import com.intech.yayananies.Activities.MainActivity;
 import com.intech.yayananies.Activities.ProfileActivity;
+import com.intech.yayananies.Activities.SelectionActivity;
 import com.intech.yayananies.Adpater.MyCandidateAdapter;
 import com.intech.yayananies.Models.Candidates;
 import com.intech.yayananies.Models.EmployerData;
@@ -71,7 +73,7 @@ View root;
     private FloatingActionButton editBtn;
     private int editState = 0;
     private LinearLayout editLayout,primeLayout;
-    private String userName,email,phone,location,userImage,street;
+    private String userName,email,phone,location,userImage,street,ID;
 
 
     public ProfileFragment() {
@@ -160,6 +162,86 @@ View root;
     }
 
 
+
+
+
+    private AlertDialog dialogDischarge;
+    public void Discharge_Alert(String candidate) {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        dialogDischarge = builder.create();
+        dialogDischarge.show();
+        builder.setTitle("Discharge candidate");
+        builder.setIcon(R.drawable.discharge);
+        builder.setMessage("Would you like to discharge "+candidate+".\n \n By discharging "+candidate+ " will be available for taking by others\n  \n" +date);
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                    dialogDischarge.dismiss();
+            }
+        });
+        builder.setPositiveButton("PROCEED",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        UpdateStatus(ID);
+                    }
+                });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+
+    //-----Update Status ----
+    private void UpdateStatus(String id){
+
+        HashMap<String, Object> update = new HashMap<>();
+        update.put("Status", "Available");
+        update.put("Working_status", "");
+        update.put("Employer_name", "");
+        update.put("Employer_no", "");
+        update.put("Employer_county", "");
+        update.put("Employer_city", "");
+        update.put("Employer_ID", "");
+        CandidateRef.document(id).update(update).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                    if (CandidateNo == 1){
+                        candidateCount();
+                    }else {
+                        dialogDischarge.dismiss();
+                        showSnackBarOnline(getContext(),candidate+" discharged successful");
+                    }
+                } else {
+                    dialogDischarge.dismiss();
+                    ToastBack(task.getException().getMessage());
+                }
+            }
+        });
+
+
+    }
+
+    private void candidateCount() {
+        HashMap<String, Object> deal = new HashMap<>();
+        deal.put("CandidatesCount", 0);
+        YayaRef.document(mAuth.getCurrentUser().getUid()).update(deal).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    dialogDischarge.dismiss();
+                    showSnackBarOnline(getContext(),candidate+" discharged successful");
+                }else {
+                    ToastBack(task.getException().getMessage());
+                    dialogDischarge.dismiss();
+                }
+            }
+        });
+    }
 
     private void SaveChanges() {
 
@@ -274,11 +356,12 @@ View root;
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Candidates  candidates = documentSnapshot.toObject(Candidates.class);
+                candidate = candidates.getCandidate_name();
+                ID = candidates.getCandidateID();
                 id2 = documentSnapshot.getId();
                 if (id2 != null){
-//                    Intent toUpdate = new Intent(getContext(), InfoActivity.class);
-//                    toUpdate.putExtra("ID",id2);
-//                    startActivity(toUpdate);
+
+                    Discharge_Alert(candidate);
                 }else {
                     ToastBack("Please select a candidate.");
                 }
@@ -348,7 +431,9 @@ View root;
     }
 
 
+    private String candidate;
     private String userNameE,countyE,cityE,contactE,imageE,emailE,idE,county;
+    private long CandidateNo;
     private void LoadUserDetails(){
         YayaRef.document(mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -369,6 +454,7 @@ View root;
                     EmployerData employerData = documentSnapshot.toObject(EmployerData.class);
                     county = employerData.getCounty();
                     street = employerData.getStreet_name();
+                    CandidateNo = employerData.getCandidatesCount();
 
 
                     EmployerEmail.setText(emailE);

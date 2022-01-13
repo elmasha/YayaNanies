@@ -16,6 +16,10 @@
                     android:icon="@drawable/ic_person_24"
                     android:title="My Profile"/>
 
+                <item android:id="@+id/discharge"
+                    android:icon="@drawable/ic_person_off_24"
+                    android:title="Discharge candidate"/>
+
 
                 <item android:id="@+id/notification"
                     android:icon="@drawable/ic_notifications"

@@ -41,6 +41,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -63,11 +64,14 @@ import com.intech.yayananies.TimeAgo;
 import com.squareup.picasso.Picasso;
 
 
+import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -265,6 +269,9 @@ public class PreferenceActivity extends AppCompatActivity {
                 ageText = "";
                 OnCounty.setText("");
                 OnAge.setText("");
+                sum =0;
+                uniqueDates.clear();
+                prefCount.setText("0");
                 ConfirmPreference.setEnabled(false);
                 ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
                 ConfirmPreference.setTextColor(Color.parseColor("#808080"));
@@ -280,6 +287,10 @@ public class PreferenceActivity extends AppCompatActivity {
                     ConfirmPreference.setEnabled(true);
                     ConfirmPreference.setBackgroundResource(R.drawable.btn_round_gradient);
                     ConfirmPreference.setTextColor(Color.parseColor("#1C1B2B"));
+                }else {
+                    ConfirmPreference.setEnabled(false);
+                    ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+                    ConfirmPreference.setTextColor(Color.parseColor("#808080"));
                 }
 
                 if (ageText != null){
@@ -320,31 +331,7 @@ public class PreferenceActivity extends AppCompatActivity {
         ConfirmPreference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
-                ageText = age.getSelectedItem().toString();
-                if (countyText.isEmpty()){
-
-                    ToastBack("Choose a County.");
-                }else if (ageText.isEmpty()){
-
-                    ToastBack("Choose Age.");
-
-                }else if (ageSet(ageText).equals("Select age")){
-
-                    ToastBack("Choose Age.");
-                }
-                else {
-                    Intent toUpdate = new Intent(getApplicationContext(), SelectionActivity.class);
-                    toUpdate.putExtra("County",countyText);
-                    toUpdate.putExtra("Age",ageSet(ageText));
-                    startActivity(toUpdate);
-
-                  //  MpesaDialog();
-
-                }
-
+                Pref_Alert();
             }
         });
 
@@ -373,6 +360,7 @@ public class PreferenceActivity extends AppCompatActivity {
         ConfirmPreference.setEnabled(false);
         ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
         ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+        uniqueDates.clear();
 
     }
 
@@ -598,13 +586,14 @@ public class PreferenceActivity extends AppCompatActivity {
         updateCountDownText();
 
     }
-    ///____end stk timer.
-
     private void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
     }
+    ///____end stk timer.
+
+
 
 
 
@@ -719,7 +708,7 @@ public class PreferenceActivity extends AppCompatActivity {
                     return;
                 }
                 TotalCount = documentSnapshot.getLong("Total_number");
-                prefCount.setText(TotalCount+"");
+
             }
         });
     }
@@ -772,16 +761,155 @@ public class PreferenceActivity extends AppCompatActivity {
                 countyText = counties.getCounty();
                 OnCounty.setText(countyText);
                 OnAge.setText(ageSet(ageText));
-                Selected.setText("You have selected age"+ageText+" and "+countyText +" from your preference.");
+                Selected.setText("");
                 frameLayout.setVisibility(View.GONE);
                 countystate=0;
                 ConfirmPreference.setEnabled(true);
                 ConfirmPreference.setBackgroundResource(R.drawable.btn_round_gradient);
                 ConfirmPreference.setTextColor(Color.parseColor("#1C1B2B"));
-
+                uniqueDates.clear();
+                FetchAvailable();
             }
         });
 
+    }
+
+    ArrayList<Object> uniqueDates = new ArrayList<Object>();
+    int sum ;
+    private void FetchAvailable() {
+
+
+
+        CandidateRef.whereEqualTo("County",countyText)
+                .whereEqualTo("Status","Available")
+                .whereGreaterThanOrEqualTo("Age",ageText)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueDates.add(document.getData());
+                                for ( sum = 1; sum < uniqueDates.size(); sum++) {
+
+                                }
+                                prefCount.setText(sum+"");
+                            }
+
+                        } else {
+
+                        }
+                    }
+                });
+
+    }
+    private void postJob(String pickedCat){
+
+
+    }
+
+    private AlertDialog dialogAlert;
+    public void Dialog_Alert(String msg) {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogAlert = builder.create();
+        dialogAlert.show();
+        builder.setTitle("Attention");
+        builder.setIcon(R.drawable.attention);
+        builder.setMessage(msg+".\n" +date);
+
+        builder.setPositiveButton("OKAY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        countyText = "";
+                        ageText = "";
+                        OnCounty.setText("");
+                        OnAge.setText("");
+                        sum =0;
+                        uniqueDates.clear();
+                        prefCount.setText("0");
+                        ConfirmPreference.setEnabled(false);
+                        ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+                        ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+                        dialogAlert.dismiss();
+                    }
+                });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    private AlertDialog dialogPref;
+    public void Pref_Alert() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogPref = builder.create();
+        dialogPref.show();
+        builder.setTitle("Search preference");
+        builder.setIcon(R.drawable.search);
+        builder.setMessage("You have selected age "+ageText+" and "+countyText +" from your preference.\n");
+
+        builder.setNegativeButton("REFINE SEARCH", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                countyText = "";
+                ageText = "";
+                OnCounty.setText("");
+                OnAge.setText("");
+                sum =0;
+                uniqueDates.clear();
+                prefCount.setText("0");
+                ConfirmPreference.setEnabled(false);
+                ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
+                ConfirmPreference.setTextColor(Color.parseColor("#808080"));
+                dialogPref.dismiss();
+            }
+        });
+        builder.setPositiveButton("PROCEED",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ageText = age.getSelectedItem().toString();
+                        if (countyText.isEmpty()){
+                            ToastBack("Choose a County.");
+                            dialogPref.dismiss();
+                        }else if (ageText.isEmpty()){
+
+                            ToastBack("Choose Age.");
+                            dialogPref.dismiss();
+
+                        }else if (ageSet(ageText).equals("Select age")){
+
+                            ToastBack("Choose Age.");
+                            dialogPref.dismiss();
+                        }else if (sum == 0){
+                            if (dialogPref!= null)dialogPref.dismiss();
+                            Dialog_Alert("There are no candidate from your selected preference");
+                        }
+                        else {
+                            dialogPref.dismiss();
+                            Intent toUpdate = new Intent(getApplicationContext(), SelectionActivity.class);
+                            toUpdate.putExtra("County",countyText);
+                            toUpdate.putExtra("Age",ageText);
+                            toUpdate.putExtra("Sum",sum);
+                            startActivity(toUpdate);
+                            uniqueDates.clear();
+                            prefCount.setText("0");
+
+                            //  MpesaDialog();
+
+                        }
+
+
+                    }
+                });
+
+        builder.setCancelable(false);
+        builder.show();
     }
 
 
@@ -934,6 +1062,9 @@ public class PreferenceActivity extends AppCompatActivity {
             ToastBack("Double tap to exit");
             ConfirmPreference.setEnabled(false);
             Selected.setText("");
+            sum =0;
+            uniqueDates.clear();
+            prefCount.setText("0");
             ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
             ConfirmPreference.setTextColor(Color.parseColor("#808080"));
             if(getSupportFragmentManager().findFragmentById(R.id.Frame_preference) != null) {

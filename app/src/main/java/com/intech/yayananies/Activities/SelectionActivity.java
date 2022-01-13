@@ -41,6 +41,7 @@ import com.intech.yayananies.Interface.RetrofitInterface;
 import com.intech.yayananies.Models.Candidates;
 import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.Models.ResponseStk;
+import com.intech.yayananies.Models.Result;
 import com.intech.yayananies.Models.StkQuery;
 import com.intech.yayananies.R;
 import com.intech.yayananies.TimeAgo;
@@ -90,6 +91,7 @@ public class SelectionActivity extends AppCompatActivity {
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS_COUNT;
+    private int SUM;
 
     private boolean preference_count;
     private String mpesa_receipt,checkOutReqID;
@@ -102,7 +104,9 @@ public class SelectionActivity extends AppCompatActivity {
         super.onStart();
         LoadUserDetails();
         FetchProduct();
+        LoadAPI();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +117,7 @@ public class SelectionActivity extends AppCompatActivity {
         frameLayoutPass = findViewById(R.id.Selection_pass);
         County = getIntent().getStringExtra("County");
         Age = getIntent().getStringExtra("Age");
+        SUM = getIntent().getIntExtra("Sum",0);
         ConfirmPref = findViewById(R.id.confirm_candidate);
         ChangePref = findViewById(R.id.change_preference);
         toPref = findViewById(R.id.BackToPref);
@@ -181,7 +186,7 @@ public class SelectionActivity extends AppCompatActivity {
                     if (payDay != null){
 
                         if (getDifferenceDays(date,payDay) > 1 ){
-                            ToastBack(getDifferenceDays(date,payDay)+" Day2");
+                            ToastBack(getDifferenceDays(date,payDay)+" Days");
                         }else {
                             ToastBack(getDifferenceDays(date,payDay)+" Day");
                         }
@@ -214,8 +219,31 @@ public class SelectionActivity extends AppCompatActivity {
             }
         });
 
+
+        ToastBack(SUM+"");
         FetchProduct();
         LoadUserDetails();
+        LoadAPI();
+    }
+
+
+    private void LoadAPI() {
+
+        Call<Result> callStk = retrofitInterface.getResult();
+        callStk.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if (response.code() == 200){
+                    Result responseStk = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+            }
+        });
+
     }
 
     ProgressDialog progressDialog33;
@@ -250,7 +278,7 @@ public class SelectionActivity extends AppCompatActivity {
         HashMap<String ,Object> notify = new HashMap<>();
         notify.put("title","Selection fee");
         notify.put("desc","You have reached maximum number of days");
-        notify.put("type","Selection activation");
+        notify.put("type","Selection fee activation");
         notify.put("to",mAuth.getCurrentUser().getUid());
         notify.put("from",mAuth.getCurrentUser().getUid());
         notify.put("timestamp",FieldValue.serverTimestamp());
@@ -293,15 +321,14 @@ public class SelectionActivity extends AppCompatActivity {
         progressBarMpesa.setIndeterminateDrawable(doubleBounce);
 
         mpesaText.setText("Are you sure this "+contactE+" is your Mpesa number?");
-        mpesaText2.setText("For you to select this candidate you will require to pay amount =/100 for 3days activation.");
+        mpesaText2.setText("For you to select this candidate you will require to pay amount =/100 for 3days free selection.");
         mpesaNo.setText(contactE);
-
 
         noMpesa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (phoneState == 0){
-                    mpesaText.setText("Please enter is your Mpesa number");
+                    mpesaText.setText("Please enter your Mpesa number");
                     mpesaNo.setVisibility(View.VISIBLE);
                     phoneState =1;
                     noMpesa.setText("Close");

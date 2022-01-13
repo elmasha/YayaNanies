@@ -23,7 +23,8 @@
 
         <TextView
             android:id="@+id/notify_description"
-            android:layout_width="wrap_content"
+            android:layout_width="290dp"
+            android:maxLines="3"
             android:text="Title"
             android:textSize="14dp"
             android:textColor="@color/lightGrey"
