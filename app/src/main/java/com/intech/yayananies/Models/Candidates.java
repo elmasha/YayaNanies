@@ -3,7 +3,7 @@ package com.intech.yayananies.Models;
 import java.util.Date;
 
 public class Candidates {
-    private String Candidate_name,Gender,ID_no, DOB, Mobile_no, device_token, Profile_image,
+    private String Candidate_name,Gender,ID_no, DOB, Mobile_no, device_token, Profile_image,User_ID,
             County, Ward, Village, Next_of_kin, Kin_phone_no, Experience, Salary,Status,CandidateID,Age,Residence, Employer_name,
             Employer_no,
             Employer_county,
@@ -13,7 +13,8 @@ public class Candidates {
         //empty...
     }
 
-    public Candidates(String candidate_name, String gender, String ID_no, String DOB, String mobile_no, String device_token, String profile_image, String county, String ward, String village, String next_of_kin, String kin_phone_no, String experience, String salary, String status, String candidateID, String age, String residence, String employer_name,
+
+    public Candidates(String candidate_name, String gender, String ID_no, String DOB, String mobile_no, String device_token, String profile_image, String user_ID, String county, String ward, String village, String next_of_kin, String kin_phone_no, String experience, String salary, String status, String candidateID, String age, String residence, String employer_name,
                       String employer_no, String employer_county, String employer_city, String employer_ID, String working_status, Date timestamp) {
         Candidate_name = candidate_name;
         Gender = gender;
@@ -22,6 +23,7 @@ public class Candidates {
         Mobile_no = mobile_no;
         this.device_token = device_token;
         Profile_image = profile_image;
+        User_ID = user_ID;
         County = county;
         Ward = ward;
         Village = village;
@@ -42,6 +44,10 @@ public class Candidates {
         this.timestamp = timestamp;
     }
 
+
+    public String getUser_ID() {
+        return User_ID;
+    }
 
     public String getWorking_status() {
         return Working_status;

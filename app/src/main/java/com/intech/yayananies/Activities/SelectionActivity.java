@@ -220,7 +220,7 @@ public class SelectionActivity extends AppCompatActivity {
         });
 
 
-        ToastBack(SUM+"");
+
         FetchProduct();
         LoadUserDetails();
         LoadAPI();

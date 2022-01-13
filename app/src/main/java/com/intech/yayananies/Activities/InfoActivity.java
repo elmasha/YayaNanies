@@ -38,6 +38,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
+import com.intech.yayananies.Models.Bureau;
 import com.intech.yayananies.Models.Candidates;
 import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.R;
@@ -52,7 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.content.ContentValues.TAG;
 
 public class InfoActivity extends AppCompatActivity {
-    private TextView Name,Age,Status,County,Ward,Phone,ID_no,Salary,Residence,InfoText;
+    private TextView Name,Age,Status,County,Ward,Phone,ID_no,Salary,Residence,OutBureauNo,InfoText;
     private Button ConfirmDeal,CancelDeal;
     private FloatingActionButton CallBtn,SmsBtn;
     private String ID;
@@ -62,6 +63,7 @@ public class InfoActivity extends AppCompatActivity {
     CollectionReference CandidateRef = db.collection("Yaya_Candidates");
     CollectionReference YayaRef = db.collection("Yaya_Employer");
     CollectionReference AdminRef = db.collection("Admin");
+    CollectionReference BureauRef = db.collection("Yaya_Bureau");
     private String firstName,image,status,mobile,county,ward,UpdateStatus,
             village,nextOfKin,kinMobile,experience,salary,residence,dob,idNo,gender,age;
     private FirebaseAuth mAuth;
@@ -92,6 +94,7 @@ public class InfoActivity extends AppCompatActivity {
         linearLayoutDeal = findViewById(R.id.Deal_layout);
         Residence = findViewById(R.id.C_residence);
         InfoText = findViewById(R.id.infoTextView);
+        OutBureauNo = findViewById(R.id.BureauNo);
 
 
         SmsBtn.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +105,7 @@ public class InfoActivity extends AppCompatActivity {
                 }else {
 
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage("tel:" +mobile, null, "sms message", null, null);}
+                    smsManager.sendTextMessage("tel:" +BureauNo, null, "sms message", null, null);}
 
             }
         });
@@ -111,19 +114,14 @@ public class InfoActivity extends AppCompatActivity {
         ConfirmDeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (noOfCandidate == 1){
-                    Dialog_Alert("You reached maximum Number of candidates");
-                }else {
-                    UpdateStatus();
-                }
-
+                DialogDeal_Alert1("If you don't agree on this candidate please note the payment remains valid for 3 days");
             }
         });
 
         CancelDeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UpdateWokeStatus(ID);
+               DialogDeal_Alert("Selecting this option will take you back to pick you preference afresh. \n Your payments is valid for 3 days");
             }
         });
 
@@ -149,6 +147,74 @@ public class InfoActivity extends AppCompatActivity {
         LoadUserDetails();
     }
 
+
+    private AlertDialog dialogOnDeal1;
+    public void DialogDeal_Alert1(String msg) {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogOnDeal1 = builder.create();
+        dialogOnDeal1.show();
+        builder.setTitle("Attention");
+        builder.setIcon(R.drawable.attention);
+        builder.setMessage(msg+".\n" +date);
+
+        builder.setPositiveButton("PROCEED",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogOnDeal1.dismiss();
+                        if (noOfCandidate == 1){
+                            if (dialogOnDeal1 != null)dialogOnDeal1.dismiss();
+                            Dialog_Alert("You reached maximum Number of candidates");
+                        }else {
+                            UpdateStatus();
+                        }
+                    }
+                });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogOnDeal1.dismiss();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+
+    private AlertDialog dialogOnDeal;
+    public void DialogDeal_Alert(String msg) {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogOnDeal = builder.create();
+        dialogOnDeal.show();
+        builder.setTitle("Attention");
+        builder.setIcon(R.drawable.attention);
+        builder.setMessage(msg+".\n" +date);
+
+        builder.setPositiveButton("OKAY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogOnDeal.dismiss();
+                        UpdateWokeStatus(ID);
+                    }
+                });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogOnDeal.dismiss();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
 
     private AlertDialog dialogAlert;
     public void Dialog_Alert(String msg) {
@@ -372,7 +438,7 @@ public class InfoActivity extends AppCompatActivity {
 
     //----Load details---//
     private long noOfCandidate;
-    private String workStatus,employerNo;
+    private String workStatus,employerNo,BureauID;
     private void LoadCandidateDetails() {
 
         CandidateRef.document(ID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -397,7 +463,9 @@ public class InfoActivity extends AppCompatActivity {
                     residence = candidates.getResidence();
                     workStatus = candidates.getWorking_status();
                     employerNo = candidates.getEmployer_no();
+                    BureauID = candidates.getUser_ID();
 
+                    LoadUserDetailsBureau(BureauID);
 
                     Name.setText(firstName);
                     Age.setText(age+" yrs");
@@ -446,6 +514,29 @@ public class InfoActivity extends AppCompatActivity {
                     countyE = documentSnapshot.getString("County");
                     noOfCandidate = employerData.getCandidatesCount();
 
+
+                }
+            }
+        });
+
+    }
+
+
+
+    private String BureauNo;
+    private void LoadUserDetailsBureau(String UiD){
+        YayaRef.document(UiD).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot,
+                                @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+                if (documentSnapshot.exists()){
+
+                    Bureau employerData = documentSnapshot.toObject(Bureau.class);
+                    BureauNo = employerData.getPhone_NO();
+                    OutBureauNo.setText(BureauNo);
 
                 }
             }
