@@ -105,6 +105,7 @@ public class PreferenceActivity extends AppCompatActivity {
     private ActionBarDrawerToggle t;
     private NavigationView nv;
     int countystate = 0;
+    int AgeSect;
     private int profileState= 0;
 
 
@@ -272,22 +273,27 @@ public class PreferenceActivity extends AppCompatActivity {
                 sum =0;
                 uniqueDates.clear();
                 prefCount.setText("0");
+                AgeSect =0;
+                age.clearFocus();
                 ConfirmPreference.setEnabled(false);
                 ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
                 ConfirmPreference.setTextColor(Color.parseColor("#808080"));
             }
         });
 
+        AgeSect = age.getSelectedItemPosition();
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i !=  0){
+
+                if (AgeSect != i){
                     ageText = age.getSelectedItem().toString();
                     OnAge.setText(ageText);
                     ConfirmPreference.setEnabled(true);
                     ConfirmPreference.setBackgroundResource(R.drawable.btn_round_gradient);
                     ConfirmPreference.setTextColor(Color.parseColor("#1C1B2B"));
                 }else {
+                    OnAge.setText("");
                     ConfirmPreference.setEnabled(false);
                     ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
                     ConfirmPreference.setTextColor(Color.parseColor("#808080"));
@@ -300,7 +306,9 @@ public class PreferenceActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                AgeSect = 0;
                 ConfirmPreference.setEnabled(false);
+                OnAge.setText("");
                 ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);
                 ConfirmPreference.setTextColor(Color.parseColor("#808080"));
             }
@@ -318,9 +326,9 @@ public class PreferenceActivity extends AppCompatActivity {
                 }else if (profileState ==1){
                     profileImage.setVisibility(View.GONE);
                     if(getSupportFragmentManager().findFragmentById(R.id.Frame_preference) != null) {
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .remove(getSupportFragmentManager().findFragmentById(R.id.Frame_preference)).commit();
+                        getSupportFragmentManager().beginTransaction()
+                                .remove(getSupportFragmentManager()
+                                        .findFragmentById(R.id.Frame_preference)).commit();
                     }
                     profileState = 0;
                 }
@@ -757,10 +765,9 @@ public class PreferenceActivity extends AppCompatActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Counties  counties = documentSnapshot.toObject(Counties.class);
                 String count = documentSnapshot.getId();
-
                 countyText = counties.getCounty();
                 OnCounty.setText(countyText);
-                OnAge.setText(ageSet(ageText));
+                OnAge.setText(ageText);
                 Selected.setText("");
                 frameLayout.setVisibility(View.GONE);
                 countystate=0;
@@ -862,6 +869,7 @@ public class PreferenceActivity extends AppCompatActivity {
                 OnCounty.setText("");
                 OnAge.setText("");
                 sum =0;
+                AgeSect =0;
                 uniqueDates.clear();
                 prefCount.setText("0");
                 ConfirmPreference.setEnabled(false);
@@ -1063,6 +1071,7 @@ public class PreferenceActivity extends AppCompatActivity {
             ConfirmPreference.setEnabled(false);
             Selected.setText("");
             sum =0;
+            AgeSect =0;
             uniqueDates.clear();
             prefCount.setText("0");
             ConfirmPreference.setBackgroundResource(R.drawable.btn_round_grey);

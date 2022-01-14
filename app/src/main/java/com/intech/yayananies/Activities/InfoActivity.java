@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
@@ -312,7 +314,13 @@ public class InfoActivity extends AppCompatActivity {
 
 
     //-----Update Status ----
+    private ProgressDialog progressDialog;
     private void UpdateStatus(){
+            if (dialogOnDeal != null)dialogOnDeal.dismiss();
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
             HashMap<String, Object> update = new HashMap<>();
             update.put("Status", "UnAvailable");
@@ -329,12 +337,41 @@ public class InfoActivity extends AppCompatActivity {
                         candidateCount();
                     } else {
                         ToastBack(task.getException().getMessage());
+                        progressDialog.dismiss();
                     }
                 }
             });
 
 
     }
+
+
+
+    private void NotifyUser() {
+        HashMap<String ,Object> notify = new HashMap<>();
+        notify.put("title","Confirmed deal");
+        notify.put("desc","You have deal confirmed between "+firstName+" and you");
+        notify.put("type","Candidate enroll.");
+        notify.put("to",mAuth.getCurrentUser().getUid());
+        notify.put("from",mAuth.getCurrentUser().getUid());
+        notify.put("timestamp", FieldValue.serverTimestamp());
+
+        YayaRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                .document().set(notify)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+
+                        }else {
+                            ToastBack(task.getException().getMessage());
+                        }
+                    }
+                });
+
+
+    }
+
 
     private void candidateCount() {
         HashMap<String, Object> deal = new HashMap<>();
@@ -343,7 +380,7 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    ToastBack("Status updated to " + UpdateStatus);
+                    NotifyUser();
                     getAvailableCounts(UpdateStatus);
                 }else {
                     ToastBack(task.getException().getMessage());
@@ -351,9 +388,13 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
     }
-
+    private ProgressDialog progressDialog2;
     private void UpdateWokeStatus(String ID){
-
+        if (dialogOnDeal != null)dialogOnDeal.dismiss();
+        progressDialog2 = new ProgressDialog(this);
+        progressDialog2.setMessage("Please wait...");
+        progressDialog2.setCancelable(false);
+        progressDialog2.show();
         HashMap<String, Object> update = new HashMap<>();
         update.put("Working_status", "");
         CandidateRef.document(ID).update(update).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -364,6 +405,7 @@ public class InfoActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),PreferenceActivity.class));
                 } else {
                     ToastBack(task.getException().getMessage());
+                    progressDialog2.dismiss();
                 }
             }
         });

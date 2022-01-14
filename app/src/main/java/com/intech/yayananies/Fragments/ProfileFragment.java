@@ -226,6 +226,32 @@ View root;
 
     }
 
+    private void NotifyUser() {
+        HashMap<String ,Object> notify = new HashMap<>();
+        notify.put("title","Discharge candidate");
+        notify.put("desc","You have successfully discharged "+candidate);
+        notify.put("type","Discharge.");
+        notify.put("to",mAuth.getCurrentUser().getUid());
+        notify.put("from",mAuth.getCurrentUser().getUid());
+        notify.put("timestamp", FieldValue.serverTimestamp());
+
+        YayaRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
+                .document().set(notify)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            dialogDischarge.dismiss();
+                            showSnackBarOnline(getContext(),candidate+" discharged successful");
+                        }else {
+                            ToastBack(task.getException().getMessage());
+                        }
+                    }
+                });
+
+
+    }
+
     private void candidateCount() {
         HashMap<String, Object> deal = new HashMap<>();
         deal.put("CandidatesCount", 0);
@@ -233,8 +259,7 @@ View root;
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    dialogDischarge.dismiss();
-                    showSnackBarOnline(getContext(),candidate+" discharged successful");
+                    NotifyUser();
                 }else {
                     ToastBack(task.getException().getMessage());
                     dialogDischarge.dismiss();
