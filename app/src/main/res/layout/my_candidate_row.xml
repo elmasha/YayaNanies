@@ -53,29 +53,7 @@
                     android:src="@drawable/ic_person_24" />
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gender:"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:id="@+id/row_gender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textColor="@color/blue"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -126,6 +104,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <TextView
@@ -203,6 +182,30 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gender:"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/row_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/blue"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/row_mobile"
@@ -220,6 +223,20 @@
 
         </LinearLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click to discharge"
+            android:textColor="@color/main"
+            android:paddingRight="5dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_black_dis"
+            android:layout_gravity="end"
+            android:textSize="15dp" />
     </LinearLayout>
 
 

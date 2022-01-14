@@ -26,12 +26,12 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="Your preference"
+                android:text="Select your preference"
                 android:textSize="19dp"
                 android:layout_centerHorizontal="true"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:layout_margin="22dp"
+                android:layout_margin="20dp"
                 android:textColor="@color/main"
                 android:layout_height="wrap_content"/>
 
@@ -189,6 +189,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:orientation="horizontal"
                                 >
 
@@ -242,7 +243,7 @@
                     <Button
                         android:id="@+id/confirm_candidate"
                         android:layout_width="wrap_content"
-                        android:text="Confirm"
+                        android:text="Proceed"
                         android:textColor="@color/black"
                         android:textAllCaps="false"
                         android:layout_gravity="center_horizontal"
