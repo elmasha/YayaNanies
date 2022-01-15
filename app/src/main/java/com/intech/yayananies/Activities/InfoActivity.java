@@ -55,7 +55,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.content.ContentValues.TAG;
 
 public class InfoActivity extends AppCompatActivity {
-    private TextView Name,Age,Status,County,Ward,Phone,ID_no,Salary,Residence,OutBureauNo,InfoText;
+    private TextView Name,Age,Status,County,Ward,Phone,ID_no,Salary,Residence,OutBureauNo,OutBureauName,InfoText;
     private Button ConfirmDeal,CancelDeal;
     private FloatingActionButton CallBtn,SmsBtn;
     private String ID;
@@ -67,7 +67,7 @@ public class InfoActivity extends AppCompatActivity {
     CollectionReference AdminRef = db.collection("Admin");
     CollectionReference BureauRef = db.collection("Yaya_Bureau");
     private String firstName,image,status,mobile,county,ward,UpdateStatus,
-            village,nextOfKin,kinMobile,experience,salary,residence,dob,idNo,gender,age;
+            village,nextOfKin,kinMobile,experience,salary,residence,dob,idNo,gender,age,Bureau_No,Bureau_Name;
     private FirebaseAuth mAuth;
     int PERMISSION_ALL = 20003;
     private Bitmap compressedImageBitmap;
@@ -97,6 +97,7 @@ public class InfoActivity extends AppCompatActivity {
         Residence = findViewById(R.id.C_residence);
         InfoText = findViewById(R.id.infoTextView);
         OutBureauNo = findViewById(R.id.BureauNo);
+        OutBureauName = findViewById(R.id.BureauName);
 
 
         SmsBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +108,7 @@ public class InfoActivity extends AppCompatActivity {
                 }else {
 
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage("tel:" +BureauNo, null, "sms message", null, null);}
+                    smsManager.sendTextMessage("tel:" +Bureau_No, null, "sms message", null, null);}
 
             }
         });
@@ -138,7 +139,7 @@ public class InfoActivity extends AppCompatActivity {
                 }else {
                     ToastBack("Calling Agent");
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" +mobile));
+                    callIntent.setData(Uri.parse("tel:" +"+"+Bureau_No));
                     startActivity(callIntent);
                 }
 
@@ -147,6 +148,33 @@ public class InfoActivity extends AppCompatActivity {
 
         LoadCandidateDetails();
         LoadUserDetails();
+    }
+
+
+
+    private AlertDialog dialogOnDealConfirm;
+    public void DialogConfirmDeal_Alert() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogOnDealConfirm = builder.create();
+        dialogOnDealConfirm.show();
+        builder.setTitle("Deal confirmed");
+        builder.setIcon(R.drawable.agree);
+        builder.setCancelable(false);
+        builder.setMessage("This deal has been confirmed successfully .\n" +date);
+
+        builder.setPositiveButton("OKAY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialogOnDealConfirm.dismiss();
+                        startActivity(new Intent(getApplicationContext(),PreferenceActivity.class));
+                    }
+                });
+
+        builder.setCancelable(false);
+        builder.show();
     }
 
 
@@ -316,7 +344,6 @@ public class InfoActivity extends AppCompatActivity {
     //-----Update Status ----
     private ProgressDialog progressDialog;
     private void UpdateStatus(){
-            if (dialogOnDeal != null)dialogOnDeal.dismiss();
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Please wait...");
             progressDialog.setCancelable(false);
@@ -334,8 +361,10 @@ public class InfoActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        if ( dialogOnDeal1 != null)dialogOnDeal1.dismiss();
                         candidateCount();
                     } else {
+                        if ( dialogOnDeal1 != null)dialogOnDeal1.dismiss();
                         ToastBack(task.getException().getMessage());
                         progressDialog.dismiss();
                     }
@@ -350,19 +379,28 @@ public class InfoActivity extends AppCompatActivity {
     private void NotifyUser() {
         HashMap<String ,Object> notify = new HashMap<>();
         notify.put("title","Confirmed deal");
-        notify.put("desc","You have deal confirmed between "+firstName+" and you");
+        notify.put("desc","You have deal confirmed between "+Bureau_Name+" and you");
         notify.put("type","Candidate enroll.");
         notify.put("to",mAuth.getCurrentUser().getUid());
         notify.put("from",mAuth.getCurrentUser().getUid());
         notify.put("timestamp", FieldValue.serverTimestamp());
 
+        HashMap<String ,Object> notify2 = new HashMap<>();
+        notify2.put("title","Confirmed deal");
+        notify2.put("desc","You have deal confirmed between "+userNameE+" and you on candidate "+firstName);
+        notify2.put("type","Candidate closed deal.");
+        notify2.put("to",BureauID);
+        notify2.put("from",mAuth.getCurrentUser().getUid());
+        notify2.put("timestamp", FieldValue.serverTimestamp());
+
+        BureauRef.document(BureauID).collection("Notifications").document().set(notify2);
         YayaRef.document(mAuth.getCurrentUser().getUid()).collection("Notifications")
                 .document().set(notify)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-
+                            DialogConfirmDeal_Alert();
                         }else {
                             ToastBack(task.getException().getMessage());
                         }
@@ -381,7 +419,7 @@ public class InfoActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     NotifyUser();
-                    getAvailableCounts(UpdateStatus);
+                   // getAvailableCounts(UpdateStatus);
                 }else {
                     ToastBack(task.getException().getMessage());
                 }
@@ -506,6 +544,8 @@ public class InfoActivity extends AppCompatActivity {
                     workStatus = candidates.getWorking_status();
                     employerNo = candidates.getEmployer_no();
                     BureauID = candidates.getUser_ID();
+                    Bureau_Name = candidates.getBureauName();
+                    Bureau_No = candidates.getBureauNo();
 
                     LoadUserDetailsBureau(BureauID);
 
@@ -519,6 +559,11 @@ public class InfoActivity extends AppCompatActivity {
                     Ward.setText(ward);
                     Salary.setText(salary);
                     Residence.setText(residence);
+                    if (Bureau_Name != null | Bureau_No != null){
+                        OutBureauNo.setText("+"+Bureau_No);
+                        OutBureauName.setText(Bureau_Name);
+                    }
+
                     Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.load).error(R.drawable.profile).into(candidateProfile);
 
 
@@ -578,7 +623,7 @@ public class InfoActivity extends AppCompatActivity {
 
                     Bureau employerData = documentSnapshot.toObject(Bureau.class);
                     BureauNo = employerData.getPhone_NO();
-                    OutBureauNo.setText(BureauNo);
+                    OutBureauNo.setText("+"+BureauNo);
 
                 }
             }

@@ -8,6 +8,7 @@
     tools:context=".Activities.InfoActivity">
 
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -69,18 +70,7 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/C_salary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_black_close"
-                        android:drawableLeft="@drawable/ic_money"
-                        android:drawableTint="@color/main"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="3dp"
-                        android:text="5000"
-                        android:textColor="@color/main"
-                        android:textSize="18dp" />
+
 
                     <TextView
                         android:id="@+id/C_age"
@@ -96,163 +86,181 @@
                         android:textStyle="bold" />
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/C_image"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_gravity="center_horizontal"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/profile"
-                        app:civ_border_color="@color/primary"
-                        app:civ_border_width="2dp" />
+                        android:layout_height="wrap_content">
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/C_image"
+                            android:layout_margin="7dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/profile"
+                            app:civ_border_color="@color/primary"
+                            app:civ_border_width="2dp" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/C_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Elmasha Omondi"
+                                android:textColor="@color/black"
+                                android:textSize="19dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableRight="@drawable/ic_location"
+                                    android:text="Location"
+                                    android:textColor="@color/grey"
+                                    android:textSize="15dp" />
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text=": "
+                                    android:textColor="@color/grey"
+                                    android:textSize="17dp" />
+
+
+                                <TextView
+                                    android:id="@+id/C_county"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text=""
+                                    android:textStyle="bold"
+                                    android:textColor="@color/grey"
+                                    android:textSize="16dp" />
+
+
+                                <TextView
+                                    android:id="@+id/C_ward"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:text=""
+                                    android:textStyle="bold"
+                                    android:textColor="@color/grey"
+                                    android:textSize="16dp" />
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAlignment="center"
+                                    android:drawableRight="@drawable/ic_home"
+                                    android:drawableTint="@color/black"
+                                    android:text="Residence "
+                                    android:textSize="15dp" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="5dp"
+                                    android:text=": "
+                                    android:textSize="18dp" />
+
+
+                                <TextView
+                                    android:id="@+id/C_residence"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="8dp"
+                                    android:text=""
+                                    android:textSize="18dp" />
+
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="10dp"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableRight="@drawable/ic_money"
+                                    android:drawableTint="@color/black"
+                                    android:text="Salary"
+                                    android:textColor="@color/grey"
+                                    android:textSize="15dp" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=": "
+                                    android:textColor="@color/black"
+                                    android:textSize="17dp" />
+
+
+                                <TextView
+                                    android:id="@+id/C_salary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="5000"
+                                    android:textColor="@color/black"
+                                    android:textSize="17dp"
+                                    android:textStyle="bold"/>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
 
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/C_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Elmasha Omondi"
-                            android:textColor="@color/black"
-                            android:textSize="19dp"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:id="@+id/C_county"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:drawableLeft="@drawable/ic_location"
-                                android:text="Nairobi"
-                                android:textColor="@color/grey"
-                                android:textSize="18dp" />
-
-
-                            <TextView
-                                android:id="@+id/C_ward"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:text=""
-                                android:textColor="@color/grey"
-                                android:textSize="18dp" />
-
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/C_residence"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginStart="8dp"
-                            android:drawableLeft="@drawable/ic_home"
-                            android:drawableTint="@color/black"
-                            android:text=""
-                            android:textSize="18dp" />
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
                         android:orientation="vertical"
                         android:padding="4dp">
 
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:orientation="vertical">
-
-
-                                <com.getbase.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/C_Call"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    app:fab_colorNormal="@color/primary"
-                                    app:fab_colorPressed="@color/black"
-                                    app:fab_icon="@drawable/ic_phone"
-                                    app:fab_size="mini" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="Call Agent/Bureau"
-                                    android:textColor="@color/black"
-                                    android:textSize="16dp" />
-
-
-                                <TextView
-                                    android:id="@+id/BureauNo"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text=""
-                                    android:textColor="@color/black"
-                                    android:textSize="19dp"
-                                    android:textStyle="bold" />
-
-
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:orientation="vertical"
-                                android:visibility="gone">
-
-
-                                <com.getbase.floatingactionbutton.FloatingActionButton
-                                    android:id="@+id/C_sms"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    app:fab_colorNormal="@color/primary"
-                                    app:fab_colorPressed="@color/black"
-                                    app:fab_icon="@drawable/ic_sms"
-                                    app:fab_size="mini" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="Sms"
-                                    android:textColor="@color/black"
-                                    android:textSize="19dp"
-                                    android:textStyle="bold" />
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
 
 
                         <TextView
@@ -300,6 +308,115 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/C_Call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:fab_colorNormal="@color/primary"
+                    app:fab_colorPressed="@color/black"
+                    app:fab_icon="@drawable/ic_phone"
+                    app:fab_size="mini" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Call Agent/Bureau"
+                    android:textColor="@color/main"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:id="@+id/BureauNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="19dp"
+                    android:textStyle="bold" />
+
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Bureau name: "
+                        android:textColor="@color/grey"
+                        android:textSize="19dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/BureauName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="elmasha"
+                        android:textColor="@color/main"
+                        android:textSize="19dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/C_sms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:fab_colorNormal="@color/primary"
+                    app:fab_colorPressed="@color/black"
+                    app:fab_icon="@drawable/ic_sms"
+                    app:fab_size="mini" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sms"
+                    android:textColor="@color/black"
+                    android:textSize="19dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
