@@ -22,7 +22,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content">
 
@@ -68,30 +68,123 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/E_email"
-                        android:textColor="@color/white"
-                        android:text="elmasha@gmail.com"
-                        android:textSize="15dp"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/E_id"
-                        android:textColor="@color/white"
-                        android:text=" 3444565"
-                        android:textSize="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <TextView
+                            android:textColor="@color/grey"
+                            android:text="Email "
+                            android:drawableRight="@drawable/ic_mail"
+                            android:textSize="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/E_county"
-                        android:textColor="@color/white"
-                        android:text=""
-                        android:layout_marginBottom="10dp"
-                        android:textSize="15dp"
+                        <TextView
+                            android:textColor="@color/main"
+                            android:text=": "
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <TextView
+                            android:id="@+id/E_email"
+                            android:textColor="@color/white"
+                            android:text="elmasha@gmail.com"
+                            android:maxLines="2"
+                            android:minLines="1"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:textColor="@color/grey"
+                            android:text="ID no. "
+                            android:textSize="15dp"
+                            android:drawableRight="@drawable/ic_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <TextView
+                            android:textColor="@color/main"
+                            android:text=": "
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <TextView
+                            android:id="@+id/E_id"
+                            android:textColor="@color/white"
+                            android:text="3444565"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/grey"
+                            android:text="Location "
+                            android:layout_marginBottom="10dp"
+                            android:textSize="15dp"
+                            android:drawableRight="@drawable/ic_location"
+                            android:drawableTint="@color/grey"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:textColor="@color/main"
+                            android:text=": "
+                            android:layout_marginBottom="10dp"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <TextView
+                            android:id="@+id/E_county"
+                            android:textColor="@color/white"
+                            android:text=""
+                            android:layout_marginBottom="10dp"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+
+
+
 
 
 
@@ -155,6 +248,38 @@
                         android:drawableLeft="@drawable/ic_close_30"
                         android:drawableTint="@color/ColorRed"
                         android:layout_margin="8dp"/>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/Add_Profileimage"
+                            android:src="@drawable/profile"
+                            android:layout_gravity="center"
+                            android:layout_width="40dp"
+                            android:layout_margin="8dp"
+                            android:layout_height="40dp"/>
+
+
+                        <com.getbase.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/AddImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:fab_colorPressed="@color/black"
+                            app:fab_icon="@drawable/ic_add_a_photo_60"
+                            app:fab_colorNormal="@color/white"
+                            app:fab_size="mini"/>
+
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

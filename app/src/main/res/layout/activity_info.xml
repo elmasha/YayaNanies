@@ -115,7 +115,6 @@
                                 android:id="@+id/C_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:text="Elmasha Omondi"
                                 android:textColor="@color/black"
                                 android:textSize="19dp"
@@ -349,7 +348,7 @@
                     android:layout_gravity="center"
                     android:text=""
                     android:textColor="@color/white"
-                    android:textSize="19dp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
 
@@ -367,7 +366,7 @@
                         android:layout_gravity="center"
                         android:text="Bureau name: "
                         android:textColor="@color/grey"
-                        android:textSize="19dp"
+                        android:textSize="16dp"
                         />
 
                     <TextView
@@ -375,9 +374,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="elmasha"
+                        android:text=""
                         android:textColor="@color/main"
-                        android:textSize="19dp"
+                        android:textSize="17dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 

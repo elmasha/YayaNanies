@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +50,8 @@ import com.intech.yayananies.Models.Candidates;
 import com.intech.yayananies.Models.EmployerData;
 import com.intech.yayananies.R;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -55,10 +59,13 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.app.Activity.RESULT_OK;
+import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
+
 
 public class ProfileFragment extends Fragment {
 View root;
-    private CircleImageView profImage;
+    private CircleImageView profImage,AddProfileImage;
     private TextView EmployerName,EmployerID,EmployerEmail,EmployerCounty,logout,closeEdit;
 
     private RecyclerView mRecyclerView;
@@ -70,10 +77,11 @@ View root;
     private FirebaseAuth mAuth;
     private EditText EditUserName,EditEmail,EditPhone,EditLocation,EditStreet;
     private Button BtnSaveChanges;
-    private FloatingActionButton editBtn;
+    private FloatingActionButton editBtn,AddImage;
     private int editState = 0;
     private LinearLayout editLayout,primeLayout;
     private String userName,email,phone,location,userImage,street,ID;
+    private Uri ImageUri;
 
 
     public ProfileFragment() {
@@ -109,6 +117,22 @@ View root;
         editLayout = root.findViewById(R.id.EditView);
         BtnSaveChanges = root.findViewById(R.id.edit_Tf_saveChanges);
         closeEdit = root.findViewById(R.id.closeEdit);
+        AddProfileImage = root.findViewById(R.id.Add_Profileimage);
+        AddImage = root.findViewById(R.id.AddImage);
+
+
+
+        ProfileFragment profileFragment = new ProfileFragment();
+        AddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
+                        .setMinCropResultSize(512,512)
+                        .setAspectRatio(1,1)
+                        .start(getActivity());
+
+            }
+        });
 
         closeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +187,21 @@ View root;
 
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK)
+            switch (requestCode) {
+                case CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    //data.getData returns the content URI for the selected Image
+                    ImageUri = result.getUri();
+                    AddProfileImage.setImageURI(ImageUri);
+                    ToastBack(ImageUri+"");
+                    break;
+            }
+    }
 
     private AlertDialog dialogDischarge;
     public void Discharge_Alert(String candidate) {
@@ -457,7 +495,7 @@ View root;
 
 
     private String candidate;
-    private String userNameE,countyE,cityE,contactE,imageE,emailE,idE,county;
+    private String userNameE,countyE,cityE,contactE,imageE,emailE,idE,county,Image;
     private long CandidateNo;
     private void LoadUserDetails(){
         YayaRef.document(mAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -480,6 +518,12 @@ View root;
                     county = employerData.getCounty();
                     street = employerData.getStreet_name();
                     CandidateNo = employerData.getCandidatesCount();
+                    Image = employerData.getUserImage();
+                    if (imageE != null){
+                        AddImage.setVisibility(View.GONE);
+                    }else {
+                        AddImage.setVisibility(View.VISIBLE);
+                    }
 
 
                     EmployerEmail.setText(emailE);

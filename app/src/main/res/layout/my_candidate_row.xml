@@ -139,8 +139,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Salary: "
-                        android:textColor="@color/black"
-                        android:textSize="16dp" />
+                        android:textColor="@color/grey"
+                        android:textSize="15dp" />
 
 
                     <TextView
@@ -148,7 +148,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="7000"
-                        android:textColor="@color/main"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16dp" />
 
 
@@ -161,13 +162,31 @@
                     android:orientation="horizontal"
                     >
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Location"
+                        android:textSize="15dp"
+                        android:drawableRight="@drawable/ic_location"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text=": "
+                        android:textAlignment="center" />
+
+
                     <TextView
                         android:id="@+id/row_county"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:drawableLeft="@drawable/ic_location"
-                        android:text="Nairobi"
+                        android:text=""
+                        android:textSize="16dp"
                         android:textAlignment="center" />
 
                     <TextView
@@ -176,7 +195,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginStart="5dp"
-                        android:text="kabiria"
+                        android:text=""
+                        android:textSize="16dp"
                         android:textAlignment="center" />
 
 
