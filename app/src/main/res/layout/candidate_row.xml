@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     app:cardCornerRadius="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="160dp"
     android:padding="5dp"
     android:layout_gravity="center_horizontal"
     android:layout_margin="4dp"
@@ -11,15 +11,17 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:orientation="vertical"
             android:padding="0dp"
-            android:layout_height="wrap_content">
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent">
 
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
@@ -50,21 +52,27 @@
                     android:id="@+id/row_image"
                     android:layout_width="80dp"
                     android:layout_margin="2dp"
+                    app:civ_fill_color="@color/main2"
+                    app:civ_border_width="1dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_person_24"
+                    android:src="@drawable/user"
                     android:layout_height="80dp"/>
 
+
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/row_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:ellipsize="end"
-                        android:maxLines="1"
+                        android:maxLines="2"
+                        android:minLines="1"
+                        android:textStyle="bold"
                         android:layout_marginStart="5dp"
                         android:text="Elmasha Omondi"
                         android:textSize="15dp"
@@ -142,33 +150,34 @@
                         android:layout_height="wrap_content"/>
 
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:background="@color/primary"
-                        android:padding="4dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/row_meet"
-                            android:layout_width="wrap_content"
-                            android:text=" Schedule meeting"
-                            android:textStyle="bold"
-                            android:paddingRight="10dp"
-                            android:drawableLeft="@drawable/ic_access_time"
-                            android:drawableTint="@color/black"
-                            android:textColor="@color/black"
-                            android:layout_alignParentBottom="true"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-
-
-
 
 
 
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/primary"
+                    android:padding="4dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:text=" "
+                        android:textStyle="bold"
+                        android:src="@drawable/schedule"
+                        android:textColor="@color/black"
+                        android:layout_height="26dp"/>
+                    <TextView
+                        android:id="@+id/row_meet"
+                        android:layout_width="wrap_content"
+                        android:text="Schedule meeting"
+                        android:textStyle="bold"
+                        android:layout_marginStart="0dp"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
             </LinearLayout>
 

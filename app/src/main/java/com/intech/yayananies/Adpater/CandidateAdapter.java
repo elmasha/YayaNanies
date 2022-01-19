@@ -52,7 +52,7 @@ public class CandidateAdapter extends FirestoreRecyclerAdapter<Candidates, Candi
 //        }
 
         if(context != null | model.getProfile_image() != null) {
-            Picasso.with(context).load(model.getProfile_image()).placeholder(R.drawable.load).error(R.drawable.errorimage).into(holder.profile);
+            Picasso.with(context).load(model.getProfile_image()).placeholder(R.drawable.load).error(R.drawable.user).into(holder.profile);
         }
 
 

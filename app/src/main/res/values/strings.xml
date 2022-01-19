@@ -2,6 +2,7 @@
     <string name="app_name">YayaNanies</string>
     <string name="facebook_app_id">1306470703101038</string>
     <string name="fb_login_protocol_scheme">fb1306470703101038</string>
+    <string name="default_notification_channel_id">El_Tech_CH_01</string>
     <string-array name="ageSet">
         <item>Select age</item>
         <item>18-25</item>
