@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     app:cardCornerRadius="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
+    android:layout_width="170dp"
     android:padding="5dp"
     android:layout_gravity="center_horizontal"
     android:layout_margin="4dp"
@@ -10,170 +10,167 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:padding="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:background="@drawable/bg_blue_close"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/row_age"
+                    android:layout_width="wrap_content"
+                    android:text="23"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+            </LinearLayout>
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/row_image"
+                android:layout_width="80dp"
+                android:layout_margin="2dp"
+                app:civ_fill_color="@color/main2"
+                app:civ_border_width="1dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/user"
+                android:layout_height="80dp"/>
+
 
 
             <LinearLayout
+                android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/row_name"
+                    android:layout_width="160dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:minLines="1"
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp"
+                    android:text="Elmasha Omondi"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:background="@drawable/bg_blue_close"
+                    android:layout_marginStart="5dp"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/row_age"
                         android:layout_width="wrap_content"
-                        android:text="23"
+                        android:text="Salary: "
                         android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:textAlignment="center"
-                        android:layout_height="wrap_content"/>
-
-
-
-
-
-                </LinearLayout>
-
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/row_image"
-                    android:layout_width="80dp"
-                    android:layout_margin="2dp"
-                    app:civ_fill_color="@color/main2"
-                    app:civ_border_width="1dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/user"
-                    android:layout_height="80dp"/>
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/row_name"
-                        android:layout_width="150dp"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:minLines="1"
-                        android:textStyle="bold"
-                        android:layout_marginStart="5dp"
-                        android:text="Elmasha Omondi"
-                        android:textSize="15dp"
-                        android:textColor="@color/black"
-                        android:layout_height="wrap_content"/>
-
-
-
-
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="5dp"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:text="Salary: "
-                            android:textSize="15dp"
-                            android:textColor="@color/black"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_height="wrap_content"/>
-
-
-                        <TextView
-                            android:id="@+id/row_salary"
-                            android:layout_width="wrap_content"
-                            android:text="7000"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_height="wrap_content"/>
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/row_county"
-                            android:textAlignment="center"
-                            android:text="Nairobi"
-                            android:drawableLeft="@drawable/ic_location"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/row_ward"
-                            android:text="kabiria"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:textAlignment="center"
-                            android:layout_height="wrap_content"/>
-
-
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:id="@+id/row_mobile"
-                        android:layout_width="wrap_content"
-                        android:text="073828829"
-                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content"/>
 
 
-
+                    <TextView
+                        android:id="@+id/row_salary"
+                        android:layout_width="wrap_content"
+                        android:text="7000"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="wrap_content"/>
 
 
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/row_county"
+                        android:textAlignment="center"
+                        android:text="Nairobi"
+                        android:drawableLeft="@drawable/ic_location"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/row_ward"
+                        android:text="kabiria"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/row_mobile"
+                    android:layout_width="wrap_content"
+                    android:text="073828829"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:background="@color/primary"
                     android:padding="4dp"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_width="26dp"
-                        android:text=" "
+                        android:layout_width="24dp"
                         android:textStyle="bold"
                         android:src="@drawable/schedule"
-                        android:textColor="@color/black"
-                        android:layout_height="26dp"/>
+                        android:layout_height="24dp"/>
                     <TextView
                         android:id="@+id/row_meet"
                         android:layout_width="wrap_content"
                         android:text="Schedule meeting"
                         android:textStyle="bold"
+                        android:layout_gravity="center"
                         android:layout_marginStart="0dp"
                         android:textColor="@color/black"
                         android:layout_height="wrap_content"/>
@@ -189,7 +186,6 @@
 
 
 
-        </LinearLayout>
 
 
 

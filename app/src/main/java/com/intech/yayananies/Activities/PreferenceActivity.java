@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.format.DateFormat;
@@ -36,6 +39,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -50,6 +54,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.intech.yayananies.Adpater.CountyAdapter;
 import com.intech.yayananies.Fragments.NotificationFragment;
 import com.intech.yayananies.Fragments.ProfileFragment;
@@ -62,8 +70,13 @@ import com.intech.yayananies.Models.StkQuery;
 import com.intech.yayananies.R;
 import com.intech.yayananies.TimeAgo;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -74,16 +87,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
 
 public class PreferenceActivity extends AppCompatActivity {
 
@@ -108,6 +125,7 @@ public class PreferenceActivity extends AppCompatActivity {
     int AgeSect;
     private int profileState= 0;
 
+    private Uri ImageUri;
 
 
 
@@ -121,6 +139,14 @@ public class PreferenceActivity extends AppCompatActivity {
     private boolean mTimerRunning;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS_COUNT;
 
+
+
+    private UploadTask uploadTask;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    int PERMISSION_ALL = 20003;
+    private Bitmap compressedImageBitmap;
+    String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     protected void onStart() {
@@ -164,6 +190,9 @@ public class PreferenceActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
+        ///---initiate Storage
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
 
         nv = (NavigationView) findViewById(R.id.navigation_menu2);
@@ -202,6 +231,25 @@ public class PreferenceActivity extends AppCompatActivity {
                                 new NotificationFragment()).commit();
                         profileImage.setVisibility(View.VISIBLE);
                         profileState = 0;
+                        break;
+
+                    case R.id.discharge:
+
+                        if (dl.isDrawerOpen(GravityCompat.START)){
+                            dl.closeDrawer(GravityCompat.START);
+                        }
+                        if (profileState ==0){
+                            profileImage.setVisibility(View.GONE);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.Frame_preference,
+                                    new ProfileFragment()).commit();
+                            profileState = 1;
+                        }else if (profileState ==1){
+                            profileImage.setVisibility(View.GONE);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.Frame_preference,
+                                    new ProfileFragment()).commit();
+                            profileState = 0;
+                        }
+
                         break;
 
                     case R.id.preference:
@@ -318,20 +366,27 @@ public class PreferenceActivity extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (profileState ==0){
-                    profileImage.setVisibility(View.GONE);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.Frame_preference,
-                            new ProfileFragment()).commit();
-                    profileState = 1;
-                }else if (profileState ==1){
-                    profileImage.setVisibility(View.GONE);
-                    if(getSupportFragmentManager().findFragmentById(R.id.Frame_preference) != null) {
-                        getSupportFragmentManager().beginTransaction()
-                                .remove(getSupportFragmentManager()
-                                        .findFragmentById(R.id.Frame_preference)).commit();
+
+                if (imageE != null){
+                    if (profileState ==0){
+                        profileImage.setVisibility(View.GONE);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.Frame_preference,
+                                new ProfileFragment()).commit();
+                        profileState = 1;
+                    }else if (profileState ==1){
+                        profileImage.setVisibility(View.GONE);
+                        if(getSupportFragmentManager().findFragmentById(R.id.Frame_preference) != null) {
+                            getSupportFragmentManager().beginTransaction()
+                                    .remove(getSupportFragmentManager()
+                                            .findFragmentById(R.id.Frame_preference)).commit();
+                        }
+                        profileState = 0;
                     }
-                    profileState = 0;
+                }else {
+
+                    Image_Alert();
                 }
+
             }
         });
 
@@ -372,6 +427,98 @@ public class PreferenceActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK)
+            switch (requestCode) {
+                case CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    //data.getData returns the content URI for the selected Image
+                    ImageUri = result.getUri();
+                    if (ImageUri != null){
+                        uploadImage(ImageUri);
+                    }
+
+                    break;
+            }
+    }
+
+    private ProgressDialog progressDialog3;
+    private void uploadImage(Uri imageUri) {
+        if (dialogImage != null) dialogImage.dismiss();
+        progressDialog3 = new ProgressDialog(PreferenceActivity.this);
+        progressDialog3.setMessage("Please wait uploading...");
+        progressDialog3.show();
+        progressDialog3.setCancelable(false);
+        File newimage = new File(imageUri.getPath());
+        try {
+            Compressor compressor = new Compressor(this);
+            compressor.setMaxHeight(200);
+            compressor.setMaxWidth(200);
+            compressor.setQuality(10);
+            compressedImageBitmap = compressor.compressToBitmap(newimage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        compressedImageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        final byte[] data = baos.toByteArray();
+
+
+        final StorageReference ref = storageReference.child("Users/thumbs" + UUID.randomUUID().toString());
+        uploadTask = ref.putBytes(data);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()){
+                    Uri downloadUri = task.getResult();
+                    String profileImage = downloadUri.toString();
+
+                    HashMap<String,Object> registerB = new HashMap<>();
+                    registerB.put("UserImage",profileImage);
+
+                    YayaRef.document(mAuth.getCurrentUser().getUid()).update(registerB).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                ToastBack("Image uploaded successful");
+
+                                progressDialog3.dismiss();
+                            }else {
+                                ToastBack(task.getException().getMessage());
+                                progressDialog3.dismiss();
+                            }
+                        }
+                    });
+
+
+
+
+                }else {
+
+                    ToastBack(task.getException().getMessage());
+                    progressDialog3.dismiss();
+                }
+            }
+        });
+
+
+    }
 
     private ProgressDialog progressStk;
     private void stk(){
@@ -635,6 +782,7 @@ public class PreferenceActivity extends AppCompatActivity {
                                 .into(profileImage);
                     }else {
 
+                        profileImage.setBackgroundResource(R.drawable.add_user);
                     }
 
                 }
@@ -949,6 +1097,39 @@ public class PreferenceActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.show();
     }
+
+    private AlertDialog dialogImage;
+    public void Image_Alert() {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        String date = DateFormat.format("dd MMM ,yyyy | hh:mm a",new Date(String.valueOf(currentTime))).toString();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialogImage = builder.create();
+        dialogImage.show();
+        builder.setTitle("Upload image");
+        builder.setIcon(R.drawable.ic_add_a_photo_60);
+        builder.setMessage("You have no profile image do you wish to upload..\n");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
+                                .setMinCropResultSize(512,512)
+                                .setAspectRatio(1,1)
+                                .start(PreferenceActivity.this);
+
+                    }
+                });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialogImage.dismiss();
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+
 
 
     void Log_out(){

@@ -184,7 +184,7 @@ public class SelectionActivity extends AppCompatActivity {
                 if (id2 != null){
 
                     if (payDay != null){
-
+                        ToastBack(getDifferenceDays(date,payDay)+"");
                         if (getDifferenceDays(date,payDay) > 1 ){
                             ToastBack(getDifferenceDays(date,payDay)+" Days");
                         }else {
@@ -321,7 +321,7 @@ public class SelectionActivity extends AppCompatActivity {
         progressBarMpesa.setIndeterminateDrawable(doubleBounce);
 
         mpesaText.setText("Are you sure this "+contactE+" is your Mpesa number?");
-        mpesaText2.setText("For you to select this candidate you will require to pay amount =/100 for 3days free selection.");
+        mpesaText2.setText("For you to select this candidate you will require to pay amount =/100 for 3 days free selection.");
         mpesaNo.setText(contactE);
 
         noMpesa.setOnClickListener(new View.OnClickListener() {
