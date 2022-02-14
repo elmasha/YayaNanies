@@ -18,7 +18,7 @@ import com.intech.yayananies.R;
 import com.intech.yayananies.TimeAgo;
 
 
-import java.util.List;
+import java.util.Date;
 
 public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, NotificationAdapter.ProviderViewHolder> {
 
@@ -37,8 +37,12 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
             holder.title.setText(model.getTitle());
             holder.desc.setText(model.getDesc());
             holder.time.setText(TimeAgo.getTimeAgo(model.getTimestamp().getTime()));
-        }
+            long stamp = model.getTimestamp().getTime();
 
+        } Date  now = new Date();
+        if ( getDifferenceDays(now,model.getTimestamp()) > 29){
+            deleteItem(position);
+        }
     }
 
     @NonNull
@@ -49,6 +53,13 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
         return new ProviderViewHolder(v);
     }
 
+    public int getDifferenceDays(Date d1, Date d2) {
+        int daysdiff = 0;
+        long diff = d2.getTime() - d1.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000) + 1;
+        daysdiff = (int) diffDays;
+        return Math.abs(daysdiff);
+    }
 
     ///Delete item
     public void deleteItem (int position) {

@@ -192,7 +192,7 @@ public class SelectionActivity extends AppCompatActivity {
                         }
 
 
-                        if (getDifferenceDays(date,payDay) > 3){
+                        if (getDifferenceDays(date,payDay) >= 3){
                             FormatReceipt();
                         }else if (getDifferenceDays(date,payDay) <= 3){
 
@@ -543,7 +543,7 @@ public class SelectionActivity extends AppCompatActivity {
 
 
     public int getDifferenceDays(Date d1, Date d2) {
-        int daysdiff = 0;
+        int daysdiff = 1;
         long diff = d2.getTime() - d1.getTime();
         long diffDays = diff / (24 * 60 * 60 * 1000) + 1;
         daysdiff = (int) diffDays;
@@ -625,9 +625,7 @@ public class SelectionActivity extends AppCompatActivity {
                     county = employerData.getCounty();
                     street = employerData.getStreet_name();
                     mpesa_receipt = employerData.getMpesa_receipt();
-                   // payment_date = TimeAgo.getTimeAgo(employerData.getPayment_date().getTime());
                     payDay = employerData.getPayment_date();
-
 
 
 

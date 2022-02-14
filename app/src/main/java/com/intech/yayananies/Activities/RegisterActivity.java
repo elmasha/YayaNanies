@@ -35,6 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -43,8 +45,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.intech.yayananies.R;
 
@@ -53,6 +59,8 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -254,11 +262,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    ToastBack("Registration successful");
-                    progressDialog.dismiss();
-                    Intent toreg = new Intent(getApplicationContext(), PreferenceActivity.class);
-                    startActivity(toreg);
-                    finish();
+                   getCounts();
                 }else {
                     ToastBack(task.getException().getMessage());
                     progressDialog.dismiss();
@@ -367,6 +371,46 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void getCounts(){
+        final DocumentReference sfDocRef =
+                db.collection("Admin").document("No_of_helpers");
+
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfDocRef);
+
+                // Note: this could be done without a transaction
+                //       by updating the population using FieldValue.increment()
+                double newPopulation = snapshot.getLong("No") + 1;
+                transaction.update(sfDocRef, "No", newPopulation);
+
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                ToastBack("Registration successful");
+                progressDialog.dismiss();
+                Intent toreg = new Intent(getApplicationContext(), PreferenceActivity.class);
+                startActivity(toreg);
+                finish();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Transaction failure.", e);
+            }
+        });
+
+
+
+
+    }
+
 
 
     AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {

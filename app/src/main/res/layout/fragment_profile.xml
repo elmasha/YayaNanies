@@ -21,7 +21,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_margin="10dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content">
@@ -63,16 +63,17 @@
                     <TextView
                         android:id="@+id/E_name"
                         android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
                         android:textColor="@color/white"
                         android:text="Elmasha Omondi Oduor"
                         android:textSize="15dp"
-                        android:layout_marginTop="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -94,7 +95,7 @@
                         <TextView
                             android:id="@+id/E_email"
                             android:textColor="@color/white"
-                            android:text="elmasha@gmail.com"
+                            android:text=""
                             android:maxLines="2"
                             android:minLines="1"
                             android:textSize="15dp"
@@ -107,6 +108,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content">
 
 
@@ -130,7 +132,7 @@
                         <TextView
                             android:id="@+id/E_id"
                             android:textColor="@color/white"
-                            android:text="3444565"
+                            android:text=""
                             android:textSize="15dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
@@ -151,6 +153,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content">
 
                         <TextView
