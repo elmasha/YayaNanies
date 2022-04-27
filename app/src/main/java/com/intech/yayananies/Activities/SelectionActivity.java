@@ -85,7 +85,7 @@ public class SelectionActivity extends AppCompatActivity {
     public  String CheckoutRequestID,ResponseCode,ResultCode,ResponseDescription,ResultDesc;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "https://yayampesapi.herokuapp.com/";
+    private String BASE_URL = "https://yayampesapii.herokuapp.com/";
 
     private static final long START_TIME_IN_MILLIS_COUNT = 27000;
     private CountDownTimer mCountDownTimer;

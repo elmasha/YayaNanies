@@ -89,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
     SignInButton signInButton;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -326,6 +327,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+
+//    void SaveOnCharts(){
+//        HashMap<String,Object> admin = new HashMap<>();
+//        registerB.put("date",idNumber);
+//        registerB.put("No",);
+//        mDatabase.child("users").child(userId).child("username").setValue();
+//
+//
+//    }
 
     private void configureGoogleClient() {
         // Configure Google Sign In

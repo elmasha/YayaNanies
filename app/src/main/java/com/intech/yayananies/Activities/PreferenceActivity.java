@@ -531,12 +531,13 @@ public class PreferenceActivity extends AppCompatActivity {
 
 
                     if (imageE != null){
-                        Picasso.with(getApplicationContext()).load(imageE).placeholder(R.drawable.load)
-                                .error(R.drawable.profile)
-                                .into(profileImage);
+//                        Picasso.with(getApplicationContext()).load(imageE).placeholder(R.drawable.load)
+//                                .error(R.drawable.profile)
+//                                .into(profileImage);
                     }else {
 
                         profileImage.setBackgroundResource(R.drawable.add_user);
+                        profileImage.setBackgroundResource(R.drawable.profile);
                     }
 
                 }
