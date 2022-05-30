@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,20 +15,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.intech.yayananies.Adpater.NotificationAdapter;
 import com.intech.yayananies.Models.Notification;
 import com.intech.yayananies.R;
 import com.intech.yayananies.TimeAgo;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,6 +54,8 @@ View root;
     private NotificationAdapter adapter;
     private RecyclerView mRecyclerView;
 
+    private LinearLayout ErrorLayout;
+    private ProgressBar progressBar;
 
 
     public NotificationFragment() {
@@ -67,6 +77,8 @@ View root;
         mAuth = FirebaseAuth.getInstance();
         swipeRefreshLayout = root.findViewById(R.id.swipeNotification);
         mRecyclerView = root.findViewById(R.id.recycler_notification);
+        ErrorLayout = root.findViewById(R.id.ErrorLayoutNotification);
+        progressBar = root.findViewById(R.id.progressNotification);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -84,8 +96,42 @@ View root;
         });
 
         FetchNotification();
-
+        NotifyCount();
         return root;
+    }
+
+
+    ArrayList<Object> uniqueCount = new ArrayList<Object>();
+    int sumCanidate ;
+    private void NotifyCount() {
+        YayaEMPRef.document(mAuth.getCurrentUser().getUid())
+                .collection("Notifications")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueCount.add(document.getData());
+                                sumCanidate = 0;
+                                for ( sumCanidate = 0; sumCanidate < uniqueCount.size(); sumCanidate++) {
+
+                                }
+                            }
+
+                            if (sumCanidate <= 0){
+                                progressBar.setVisibility(View.GONE);
+                                ErrorLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                progressBar.setVisibility(View.GONE);
+                                ErrorLayout.setVisibility(View.GONE);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
     }
 
 

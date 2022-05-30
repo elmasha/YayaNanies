@@ -456,30 +456,77 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:background="@drawable/bg_black"
                 android:layout_height="match_parent">
 
 
-                <TextView
-                    android:id="@+id/E_candidates"
-                    android:textColor="@color/main"
-                    android:text="Selected candidates."
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:layout_margin="8dp"
+
+                <LinearLayout
+                    android:id="@+id/ErrorLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_candidates"
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:text="Empty!!"
+                        android:layout_gravity="center"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTint="@color/white"
+                        android:drawableTop="@drawable/folder_e"/>
+
+
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:padding="5dp"
-                    android:layout_height="match_parent"/>
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
 
-            </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/E_candidates"
+                        android:textColor="@color/main"
+                        android:text="Selected candidates."
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        android:layout_margin="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_candidates"
+                        android:layout_width="match_parent"
+                        android:padding="5dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
 
 
         </LinearLayout>

@@ -41,6 +41,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.intech.yayananies.Activities.InfoActivity;
 import com.intech.yayananies.Activities.MainActivity;
 import com.intech.yayananies.Activities.ProfileActivity;
@@ -53,6 +55,7 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,6 +64,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
+import static com.theartofdev.edmodo.cropper.CropImage.toOvalBitmap;
 
 
 public class ProfileFragment extends Fragment {
@@ -79,7 +83,7 @@ View root;
     private Button BtnSaveChanges;
     private FloatingActionButton editBtn,AddImage;
     private int editState = 0;
-    private LinearLayout editLayout,primeLayout;
+    private LinearLayout editLayout,primeLayout,ErrorLayout;
     private String userName,email,phone,location,userImage,street,ID;
     private Uri ImageUri;
 
@@ -119,6 +123,7 @@ View root;
         closeEdit = root.findViewById(R.id.closeEdit);
         AddProfileImage = root.findViewById(R.id.Add_Profileimage);
         AddImage = root.findViewById(R.id.AddImage);
+        ErrorLayout = root.findViewById(R.id.ErrorLayout);
 
 
 
@@ -182,6 +187,7 @@ View root;
 
         LoadUserDetails();
         FetchProduct();
+        EmployerCount();
         return root;
     }
 
@@ -398,6 +404,7 @@ View root;
 
 
 
+
     private  String id2;
     private void FetchProduct() {
 
@@ -432,6 +439,40 @@ View root;
         });
 
     }
+
+
+    ArrayList<Object> uniqueCount = new ArrayList<Object>();
+    int sumCanidate ;
+    private void EmployerCount() {
+        CandidateRef.whereEqualTo("Employer_ID",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                uniqueCount.add(document.getData());
+                                sumCanidate = 0;
+                                for ( sumCanidate = 0; sumCanidate < uniqueCount.size(); sumCanidate++) {
+
+                                }
+                            }
+
+                            if (sumCanidate <= 0){
+                                ErrorLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                ErrorLayout.setVisibility(View.GONE);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+    }
+
+
+
 
     private AlertDialog dialog2;
     public void Logout_Alert() {
@@ -538,7 +579,7 @@ View root;
                     EditStreet.setText(street);
 
                     if (imageE != null){
-                        Picasso.with(getContext()).load(imageE).placeholder(R.drawable.load)
+                        Picasso.with(profImage.getContext()).load(imageE).placeholder(R.drawable.load)
                                 .error(R.drawable.profile)
                                 .into(profImage);
                     }else {
