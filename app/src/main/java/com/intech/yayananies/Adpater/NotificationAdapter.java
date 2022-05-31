@@ -47,8 +47,8 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, 
                 holder.title.setTextColor(Color.parseColor("#0BF4DE"));
                 holder.time.setTextColor(Color.parseColor("#0BF4DE"));
             }else {
-                holder.title.setTextColor(Color.parseColor("#1C1B2B"));
-                holder.time.setTextColor(Color.parseColor("#808080"));
+                holder.title.setTextColor(Color.parseColor("#ffffff"));
+                holder.time.setTextColor(Color.parseColor("#ffffff"));
             }
 
         } Date  now = new Date();

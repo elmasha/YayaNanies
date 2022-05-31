@@ -36,6 +36,7 @@ import com.intech.yayananies.R;
 import com.intech.yayananies.TimeAgo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -84,6 +85,7 @@ View root;
             @Override
             public void onRefresh() {
                 FetchNotification();
+                NotifyCount();
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -161,7 +163,20 @@ View root;
                 desc1 = notification.getDesc();
                 type1 = notification.getType();
                 time1 = TimeAgo.getTimeAgo(notification.getTimestamp().getTime());
-                ShowNotification();
+                HashMap<String,Object> noty = new HashMap<>();
+                noty.put("status","seen");
+                YayaEMPRef.document(mAuth.getCurrentUser().getUid())
+                        .collection("Notifications").document(documentSnapshot.getId())
+                        .update(noty).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            ShowNotification();
+                            FetchNotification();
+                            NotifyCount();
+                        }
+                    }
+                });
             }
         });
 
